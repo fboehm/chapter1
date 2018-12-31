@@ -1,0 +1,62 @@
+---
+title: "Chapter 1"
+author: "Frederick Boehm"
+date: "12/31/2018"
+output: 
+  pdf_document:
+    keep_tex: true
+---
+
+
+
+1. Complex traits & QTL mapping 
+  - look at Karl & Saunak's chapter 1 
+  - goal is to motivate study of complex traits with QTL mapping
+
+Identification of genes that contribute to measurable phenotypes has a long and successful history in model organisms. Complex traits include classical clinical phenotypes such as systolic blood pressure and body weight as well as newly measurable biomolecular phenotypes like gene expression levels, protein concentrations, and plasma lipid levels. As early as 1923, Sax examined 
+
+Goals of a QTL study depend on its scientific context. Often a researcher seeks to identify genomewide positions of QTL for each trait of interest. In some studies, the total number of QTL for a trait may be more interesting than the QTL positions.
+
+A QTL study begins with the choice of a study design. Elements to consider include the mating design, phenotyping plan, and genotyping plan. For most of the 20th century, attaining clinical phenotypes, such as body weight, was less costly than genotyping. This setting sometimes led researchers to selectively genotype only those organisms with extreme phenotype values. With diminishing costs for both genotyping and phenotyping, many recent studies genotype and phenotype all subjects.
+
+Since the 1980s, researchers have written and shared computer software for QTL studies. 
+
+2. Univariate QTL scan in two-parent crosses
+  - goal: explain a QTL "scan" in backcross & intercross. Use pictures/diagrams of chromosome(s)
+
+
+
+
+
+3. Multivariate QTL scan in two-parent crosses
+
+
+
+3.5 Testing pleiotropy v separate QTL in two-parent crosses
+
+
+
+4. Multiparental populations
+  - what are they? Breeding design for CC & DO. Why use them?
+  
+  
+5. Univariate QTL mapping in MPP
+  - contrast with univariate QTL mapping in two-parent crosses
+  
+  
+6. Multivariate mapping in mpp
+
+
+
+7. Testing pleiotropy vs separate QTL in MPP
+
+
+
+7A. allele effects plots to discern pleiotropy v separate QTL
+
+
+
+8. Testing pleiotropy vs separate QTL to dissect an expression trait hotspot
+  Tian et al. 2016. ?Schadt et al. 2005?
+  
+  
