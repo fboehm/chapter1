@@ -1,7 +1,7 @@
 \documentclass[]{article}
 \usepackage{setspace}
 \usepackage[margin = 1in]{geometry}
-
+\usepackage{todonotes}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
@@ -100,6 +100,11 @@
 \doublespacing
 \maketitle
 
+\listoftodos
+\listoffigures
+\listoftables
+
+
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
@@ -123,14 +128,9 @@ levels, protein concentrations, and lipid levels. Understanding the
 genetic underpinnings of such traits may inform many areas of biology,
 medicine, and public health.
 
-The first reported QTL study is from 1923, 30 years before the discovery
-of the structure of DNA \citep{watson1953molecular}. \citet{sax1923association}
-examined seed weight for the common bean (\emph{Phaseolus vulgaris}) in
-an F\(_2\) intercross. He assigned each F\(_2\) subject to a gene class
-by examining its seed color patterns.
+The first reported QTL study is from 1923, 30 years before the discovery of the structure of DNA \citep{watson1953molecular}. \citet{sax1923association} examined seed weight for the common bean (\emph{Phaseolus vulgaris}) in an F\(_2\) intercross. He assigned each F\(_2\) subject to a gene class by examining its seed color patterns.
 
-\citet{lander1989mapping} kickstarted modern QTL mapping methods
-research with their seminal report in the late 1980s. Their article
+\citet{lander1989mapping} kickstarted modern QTL mapping methods research with their seminal report in the late 1980s. Their article
 
 Goals of a QTL study depend on its scientific context. Often a
 researcher seeks to identify genomewide positions of QTL for each trait
@@ -148,7 +148,8 @@ recent studies genotype and phenotype all subjects.
 
 Since the 1980s, researchers have written and shared computer software
 for QTL studies. Early efforts included MAPMAKER, QTL Cartographer,
-\ldots{} Since the early 2000s, the ``qtl'' R package has been a
+
+Since the early 2000s, the ``qtl'' R package has been a
 state-of-the-art resource for QTL mapping studies. It is open-source,
 free to download, well documented, and well supported.
 
@@ -171,6 +172,28 @@ software and introduction to map manager QT. Manly KF1, Olson JM.}
   individuals from a backcross? What are the genotypes of individuals
   from an intercross (F2)?
 \end{itemize}
+
+One widely used mating design is the backcross. Although variations are possible, one typically begins with two inbred lines. Let's designate the two lines as "A" and "B". Mating of lines A and B leads to offspring, which we designate as F$_1$ (to denote the first filial generation). The F$_1$ offspring, then, mate with the A line (ie, the parental line) to produce N$_2$ subjects, where the letter "N" denotes the offspring from a backcross and subscript 2 reflects the generation number.
+
+We assume that we're working with diploid organisms, so that every subject has two copies - which need not be identical - of each chromosome. Let's assume, further, that we're working with mice, so that every organism has 20 chromosome pairs. 
+
+Inbred lines, by definition, are homozygous at all markers. Let's designate, for a given marker, the A line to have two copies of allele A and the B line to have two copies of allele B. 
+
+Let's consider the genetic makeup of the F$_1$ subjects. We first must examine gametogenesis, the process of producing gametes, or reproductive cells, in the parents. Gametogenesis results in production of haploid cells, \emph{i.e.}, cells with only one copy of every chromosome. Two gametes, one from each parent, unite to form a diploid zygote. All F$_1$ subjects are genetically identical. For every chromosome pair, they inherited one copy of the A chromosome (from the A parent) and one copy of the B chromosome (from the B parent). In other words, every F$_1$ subject has genotype AB at every marker, where A the allele from the A parent and B the allele from the B parent. The N$_2$ generation, then, has subjects with either AA or AB genotypes at a given marker. 
+
+To understand whether a given subject has AA or AB genotype at a given marker, we need to consider the fact that gametogenesis involves crossover events before the diploid cells divide into haploid cells. A crossover event results in a swapping of DNA between the two copies of a chromosome. In inbred lines, this swapping of DNA between the two copies of a chromosome is undetectable with marker genotyping, because both chromosomes have the same allele (either two As or two Bs in our example). However, the F$_1$ subjects, with AB marker genotypes, have distinct alleles at every marker. Thus, marker genotyping has the potential to detect crossover events that occur during gametogenesis in the F$_1$ by examining marker genotypes in the N$_2$ subjects. A picture helps to clarify this idea (Figure \ref{}).
+
+\todo{Add figure here AND add text explaining the figure here}
+
+Another widely used two-parent cross is the "intercross". In it, two inbred lines again mate to produce F$_1$ subjects. Then, however, two F$_1$ subjects mate to produce F$_2$ subjects. The crossover events that occur during gametogenesis in the F$_1$ subjects gives rise to the three genotypes observed in F$_2$ subjects: AA, AB, and BB. We present a diagram for the intercross in Figure \ref{}.
+
+Both 
+
+
+
+
+
+
 
 Lander \& Botstein 1989 Haley \& Knott 1992 Martinez \& Curnow 1992
 
@@ -219,7 +242,7 @@ Haley (2000) to develop a marker regression-based approximation to
 multivariate composite interval mapping. Knott and Haley (2000) used a
 multivariate linear model for simultaneous mapping of multiple traits.
 They also presented a multivariate marker regression-based test of
-pleiotropy vs.~separate QTL. This test is suitable for subjects that are
+pleiotropy vs. separate QTL. This test is suitable for subjects that are
 equally related to each other, like the collection of offspring in an
 F\(_2\) intercross of two inbred lines.
 
@@ -246,13 +269,13 @@ and community-maintained model organism mapping populations. These new
 mapping populations would incorporate genetic material from more than
 two inbred founder lines. The accumulated meiotic recombination events
 over many generations would enhance mapping resolution over previously
-available subjects.
+available populations.
 
 Products of these community-based efforts include the Collaborative
 Cross and Diversity Outbred populations from mouse researchers and
-Drosophila Synthetic Reference Panel and \ldots{} in the fruit fly
+Drosophila Synthetic Population Resource \citep{king2012genetic} and  in the fruit fly
 scientific community. In subsequent years, scientists created
-multiparental populations in many other organisms, including \ldots{}
+multiparental populations in many other organisms, including tomato, rice, maize \citep{lehermeier2014usefulness}, wheat \citep{mackay2014eight, huang2012multiparent, milner2016multiparental}, Arabidopsis \citep{}, apple \citep{allard2016detecting}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
