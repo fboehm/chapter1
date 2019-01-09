@@ -13,3 +13,6 @@ main.run.xml
 main.dvi
 main.fdb_latexmk
 main.fls
+main.lof
+main.lot
+main.tdo
