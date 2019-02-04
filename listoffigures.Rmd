@@ -1,0 +1,12 @@
+---
+title: "List of figures that I need (Chapter 1)"
+author: "Frederick Boehm"
+date: "1/22/2019"
+output: html_document
+---
+
+
+1. Back-cross pedigree (Karl's Fig 1.1)
+
+2. Intercross pedigree (Karl's 1.2)
+

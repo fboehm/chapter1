@@ -1,0 +1,87 @@
+---
+title: "Chapter 1 outline"
+author: "Frederick Boehm"
+date: "1/22/2019"
+output: html_document
+---
+
+\subsection{Overview}
+
+Modern genetic mapping studies seek to identify the number, positions, and effect sizes of genes that affect quantitative phenotypes of interest. Phenotypes may include clinical measurements such as body weight and blood pressure and newly available biomolecular traits, such as concentrations of individual RNA molecules, proteins, and lipids. Newly available, community-supported \emph{multiparental populations} feature greater gene mapping resolution and incorporate greater genetic diversity than traditional gene mapping studies. For example, the Diversity Outbred mice arise from eight founder lines. Together, biomolecular phenotypes and multiparental populations have the ability to refine understanding of genotype-phenotype relationships and to advance biology, medicine, and public health.
+
+
+
+\subsection{Traditional QTL study designs}
+
+Traditional gene mapping studies start with two inbred lines. An inbred line is a collection of subjects that are (nearly) genetically identical and homozygous everywhere. We limit consideration to diploid organisms. In diploid organisms, such as mice and humans, every subject has two homologous copies of every autosome (i.e., every chromosome except the sex chromosomes). The two homologs are not, in general, identical to each other. In generating reproductive cells, via a process called meiosis, homologous chromosomes pair and undergo recombinations in which they exchange DNA between pairs. These recombinations result in reproductive cells that contain novel combinations of DNA on each chromosome. 
+
+We can produce inbred lines in the laboratory through multiple generations of sibling matings. In a sibling mating, the expected proportion of heterozygous sites diminishes by half. Thus, over multiple generations, the expected proportion of heterozygosity diminishes to almost zero.
+
+Biologists maintain inbred lines by sibling matings. Inbred mouse lines are given names that describe their ancestral origins and the facility or institution at which they initially bred. A facility that produces inbred mouse lines, such as the Jackson Laboratory, may then share inbred mice with other researchers while simultaneously keeping enough mice to maintain the inbred line.
+
+
+
+
+
+
+
+
+\subsection{Why do a QTL study?}
+
+Scientific motivations for QTL mapping studies vary among investigators and subdisciplines. Evolutionary biologists may be interested in identifying the number of genes that influence a quantitative trait of interest, while biomedical researchers may place greater emphasis on identifying QTL positions. 
+
+
+
+\subsection{2-parent crosses \& data}
+
+  Backcross
+  Intercross
+
+\subsection{Statistical problems (challenges?)}
+
+  Recombination models
+  Genotype - phenotype models
+
+What is a MPP? How are they created? 
+
+Why do a QTL study in MPP?
+
+MPP crosses & data
+
+  DO mice
+  Choosing inbred founder lines
+  Mating partially inbred pre-CC mice
+  
+Statistical challenges in MPP
+  
+  missing data
+  model selection
+  
+  Recombination models
+  Genotype-phenotype models
+
+
+
+
+
+
+
+
+
+  
+Workflow
+
+  Ascertain (infer) genotype probabilities for all subjects at all markers
+  Transform phenotypes one at a time
+  Univariate QTL mapping
+    Identify peaks for all univariate traits
+  Bivariate QTL scan & pleiotropy test
+    2d scan
+    lrt calculation
+    profile LOD plot - explain why we get negative LOD values here. Acknowledge that it might seem odd to some readers
+    
+    
+  
+  
+  
+

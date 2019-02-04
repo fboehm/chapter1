@@ -93,7 +93,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{12/31/2018}
+    \date{\today}
 
 
 \begin{document}
@@ -156,22 +156,9 @@ free to download, well documented, and well supported.
 \textbf{Mamm Genome. 1999 Apr;10(4):327-34. Overview of QTL mapping
 software and introduction to map manager QT. Manly KF1, Olson JM.}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\tightlist
-\item
-  Univariate QTL scan in two-parent crosses
-\end{enumerate}
 
-\begin{itemize}
-\tightlist
-\item
-  goal: explain a QTL ``scan'' in backcross \& intercross. Use
-  pictures/diagrams of chromosome(s) What are the genotypes of
-  individuals from a backcross? What are the genotypes of individuals
-  from an intercross (F2)?
-\end{itemize}
+\subsection{Mating designs for two-parent crosses}
+
 
 One widely used mating design is the backcross. Although variations are possible, one typically begins with two inbred lines. Let's designate the two lines as "A" and "B". Mating of lines A and B leads to offspring, which we designate as F$_1$ (to denote the first filial generation). The F$_1$ offspring, then, mate with the A line (ie, the parental line) to produce N$_2$ subjects, where the letter "N" denotes the offspring from a backcross and subscript 2 reflects the generation number.
 
@@ -185,12 +172,27 @@ To understand whether a given subject has AA or AB genotype at a given marker, w
 
 \todo{Add figure here AND add text explaining the figure here}
 
-Another widely used two-parent cross is the "intercross". In it, two inbred lines again mate to produce F$_1$ subjects. Then, however, two F$_1$ subjects mate to produce F$_2$ subjects. The crossover events that occur during gametogenesis in the F$_1$ subjects gives rise to the three genotypes observed in F$_2$ subjects: AA, AB, and BB. We present a diagram for the intercross in Figure \ref{}.
+Another widely used two-parent cross is the "intercross". In it, two inbred lines again mate to produce F$_1$ subjects. Then, however, two F$_1$ subjects mate to produce F$_2$ subjects. The crossover events that occur during gametogenesis in the F$_1$ subjects gives rise to the three marker genotypes observed in F$_2$ subjects: AA, AB, and BB. We present a diagram for the intercross in Figure \ref{}.
 
-Both 
+\subsection{Quantitative traits}
+
+Quantitative traits typically are those that take continuous values over a (possibly infinite) interval. Distinct analysis methods - typically with statistical tools called "generalized linear models" - are needed for traits that take binary values or one of only a few discrete values or only whole numbers. Examples of quantitative traits include both clinical traits like body weight, height, systolic blood pressure, and fasting blood glucose level and newly measurable biomolecular traits like gene expression levels, protein concentrations, and lipid levels. 
+
+\subsection{Statistical challenges in QTL studies}
+
+\citet{broman2009guide} articulate two statistical challenges: 1. the missing data problem and 2. the model selection problem. 
+
+The missing data problem arises because subjects in QTL experiments typically are genotyped at a set of discrete markers across the genome. They are not genotyped at every nucleotide base. The "missing" genotypes belong to those bases that are not genotyped. Statistical tools for probabilistically handling missing data, often with hidden Markov models, \todo{what did Lander \& Botstein do for missing data problem? How do they infer genotypes between markers?}
 
 
 
+
+\subsection{QTL mapping in a backcross}
+
+
+
+
+\subsection{QTL mapping in an intercross}
 
 
 
