@@ -1,0 +1,36 @@
+---
+title: "Outline for Chapter 1"
+author: "Frederick Boehm"
+date: "2/7/2019"
+output: html_document
+---
+
+1. What is a QTL study?
+
+2. Why do a QTL study? 
+
+3. What are commonly used two-parent designs?
+  - Backcross - Pedigree Figure needed
+  - Intercross - Pedigree Figure needed
+
+3.1 How to perform a QTL scan in a backcross? 
+
+4. What are limitations of two-parent designs?
+  - mapping resolution, genetic diversity
+
+
+
+5. What are multiparental populations?
+
+6. What is the Diversity Outbred mouse population?
+
+7. What is pleiotropy? 
+
+8. Why do we care about pleiotropy? 
+
+9. How can we assess pleiotropy in QTL studies? 
+  multivariate QTL mapping in two-parent crosses
+  multivariate QTL mapping in multiparental populations
+
+
+
