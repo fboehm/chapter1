@@ -1,0 +1,53 @@
+---
+title: "Chapter 1"
+author: "Frederick Boehm"
+date: "2/9/2019"
+output: html_document
+---
+
+1. What is a QTL study?
+
+Geneticists study complex traits, such as body weight and blood pressure, by identifying genetic loci that affect the trait of interest. These genetic loci, which we call quantitative trait loci, or QTL, are contiguous regions of DNA in which genetic variation affects variation in the trait. 
+
+
+
+
+
+
+2. Why do a QTL study? 
+  - mention Nadeau's 2019 review?? here?? 
+  - and the 2017 review with attie? 
+
+
+
+
+3. What are commonly used two-parent designs?
+  - Backcross - Pedigree Figure needed
+  - Intercross - Pedigree Figure needed
+
+Two commonly used two-parent designs are the backcross and the intercross. A backcross begins with mating of two inbred lines. T The resulting offspring, termed F1 subjects, have, for every chromosome pair, one chromosome from each parental line. In other words, they are heterozygous everywhere, when viewing their genotypes in terms of founder line alleles. 
+
+
+
+3.1 How to perform a QTL scan in a backcross? 
+
+4. What are limitations of two-parent designs?
+  - mapping resolution, genetic diversity, generalizability
+
+
+
+5. What are multiparental populations?
+
+6. What is the Diversity Outbred mouse population?
+  - see also Andrew's thesis
+
+7. What is pleiotropy? 
+
+8. Why do we care about pleiotropy? 
+
+9. How can we assess pleiotropy in QTL studies? 
+  multivariate QTL mapping in two-parent crosses
+  multivariate QTL mapping in multiparental populations
+
+
+

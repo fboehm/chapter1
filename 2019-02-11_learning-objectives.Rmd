@@ -1,0 +1,35 @@
+---
+title: "Learning objectives for Ch1"
+author: "Frederick Boehm"
+date: "2/11/2019"
+output: html_document
+---
+
+0. Describe a univariate QTL scan
+0a. Describe a bivariate QTL scan
+
+1. Describe a back-cross and an intercross for two parent designs.
+
+1a. Describe the DO breeding design and its impact on DO mouse genotypes
+
+1b. Articulate two major advantages of MPP (over 2-parent designs) for QTL mapping
+
+1c. 
+
+2. List two major statistical challenges in QTL mapping
+
+2a. Describe methods, in 2-parent crosses, for the missing genotypes problem.
+
+2b. Describe methods, in 2-parent crosses, for the genotype-phenotype modeling problem.
+
+2c. Describe methods, in the DO, for the missing genotypes problem.
+
+2d. Describe methods, in the DO, for the genotype-phenotype modeling problem.
+
+
+3. Describe the Jiang & Zeng strategy for testing pleiotropy v separate QTL in two-parent crosses
+
+3a. List 3 limitations of JZ 1995 when testing in MPP
+
+3b. List strategies to overcome the limitations in 3a.
+

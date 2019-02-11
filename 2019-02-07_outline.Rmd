@@ -8,6 +8,9 @@ output: html_document
 1. What is a QTL study?
 
 2. Why do a QTL study? 
+  - mention Nadeau's 2019 review?? here?? 
+  - and the 2017 review with attie? 
+
 
 3. What are commonly used two-parent designs?
   - Backcross - Pedigree Figure needed
@@ -23,6 +26,7 @@ output: html_document
 5. What are multiparental populations?
 
 6. What is the Diversity Outbred mouse population?
+  - see also Andrew's thesis
 
 7. What is pleiotropy? 
 
@@ -31,6 +35,8 @@ output: html_document
 9. How can we assess pleiotropy in QTL studies? 
   multivariate QTL mapping in two-parent crosses
   multivariate QTL mapping in multiparental populations
+
+10. Why is it useful to test for pleiotropy in QTL studies in MPP?
 
 
 

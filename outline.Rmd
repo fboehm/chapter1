@@ -7,7 +7,7 @@ output: html_document
 
 \subsection{Overview}
 
-Modern genetic mapping studies seek to identify the number, positions, and effect sizes of genes that affect quantitative phenotypes of interest. Phenotypes may include clinical measurements such as body weight and blood pressure and newly available biomolecular traits, such as concentrations of individual RNA molecules, proteins, and lipids. Newly available, community-supported \emph{multiparental populations} feature greater gene mapping resolution and incorporate greater genetic diversity than traditional gene mapping studies. For example, the Diversity Outbred mice arise from eight inbred founder lines. Together, biomolecular phenotypes and multiparental populations have the ability to refine understanding of genotype-phenotype relationships and to advance biology, medicine, and public health.
+Modern genetic mapping studies seek to identify the number, positions, and effect sizes of genes that affect quantitative phenotypes of interest. Phenotypes may include clinical measurements, such as body weight and blood pressure, and newly available biomolecular traits, such as concentrations of individual RNA molecules, proteins, and lipids. Community-supported multiparental populations feature greater gene mapping resolution and incorporate greater genetic diversity than traditional, two-parent gene mapping studies. For example, the Diversity Outbred mice arise from eight inbred founder lines. Together, biomolecular phenotypes and multiparental populations have the ability to refine understanding of genotype-phenotype relationships and to advance biology, medicine, and public health.
 
 
 
