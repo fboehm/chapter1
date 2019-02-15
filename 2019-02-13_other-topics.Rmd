@@ -8,7 +8,8 @@ output: html_document
 These may be incorporated into Ch1 after I've written the core components of Ch1.
 
 
-1. rodent models in biomedicine
+1. rodent models in biomedicine (and their application to human biomedicine)
 
 1. history / trajectory of computational tools for QTL analysis
 
+1. 
