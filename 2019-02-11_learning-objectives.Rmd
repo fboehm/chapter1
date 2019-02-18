@@ -6,7 +6,7 @@ output: html_document
 ---
 
 0. Describe a univariate QTL scan
-0a. Describe a bivariate QTL scan
+0a. Describe a bivariate QTL scan on one chromosome
 
 1. Describe a back-cross and an intercross for two parent designs.
 
