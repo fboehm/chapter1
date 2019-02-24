@@ -74,7 +74,8 @@
     eprint=true
 ]{biblatex}
 \addbibresource{ch1.bib}
-\addbibresource{research.bib}
+%\addbibresource{research.bib}
+\addbibresource{../diss-latex/research.bib}
 
 % Create subtitle command for use in maketitle
 \newcommand{\subtitle}[1]{
@@ -105,228 +106,172 @@
 \listoftables
 
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Complex traits \& QTL mapping
-\end{enumerate}
 
-\begin{itemize}
-\tightlist
-\item
-  look at Karl \& Saunak's chapter 1
-\item
-  goal is to motivate study of complex traits with QTL mapping
-\end{itemize}
 
-Identification of genes that affect measurable phenotypes has a long and
-successful history in model organisms. Complex traits include classical
-clinical phenotypes such as systolic blood pressure and body weight as
-well as newly measurable biomolecular phenotypes like gene expression
+Identification of genes that affect measurable traits has a long and
+successful history in model organisms. Complex traits include
+clinical measurements such as systolic blood pressure and body weight as
+well as newly attainable biomolecular traits like gene expression
 levels, protein concentrations, and lipid levels. Understanding the
-genetic underpinnings of such traits may inform many areas of biology,
+genetic underpinnings of such traits may inform biology,
 medicine, and public health.
 
-The first reported QTL study is from 1923, 30 years before the discovery of the structure of DNA \citep{watson1953molecular}. \citet{sax1923association} examined seed weight for the common bean (\emph{Phaseolus vulgaris}) in an F\(_2\) intercross. He assigned each F\(_2\) subject to a gene class by examining its seed color patterns.
-
-\citet{lander1989mapping} kickstarted modern QTL mapping methods research with their seminal report in the late 1980s. Their article
-
-Goals of a QTL study depend on its scientific context. Often a
-researcher seeks to identify genomewide positions of QTL for each trait
-of interest. In some studies, the total number of QTL for a trait may be
-more interesting than the QTL positions.
-
-A QTL study begins with a scientific question and the choice of a study
-design. Elements to consider include the mating design, phenotyping
-plan, genotyping plan, and statistical analysis methods. For most of the
-last century, attaining clinical phenotypes, such as body weight, was
-much less costly than genotyping. This setting sometimes led researchers
-to selectively genotype only those organisms with extreme phenotype
-values. With diminishing costs for both genotyping and phenotyping, many
-recent studies genotype and phenotype all subjects.
-
-Since the 1980s, researchers have written and shared computer software
-for QTL studies. Early efforts included MAPMAKER, QTL Cartographer,
-
-Since the early 2000s, the ``qtl'' R package has been a
-state-of-the-art resource for QTL mapping studies. It is open-source,
-free to download, well documented, and well supported.
-
-\textbf{Mamm Genome. 1999 Apr;10(4):327-34. Overview of QTL mapping
-software and introduction to map manager QT. Manly KF1, Olson JM.}
+We begin by discussing quantitative trait locus (QTL) mapping in two-parent crosses. We then discuss pleiotropy testing in two-parent crosses before considering newly developed multiparental populations. We discuss the design for one multiparental population, the Diversity Outbred mice. We then justify the need for a pleiotropy test for use in multiparental populations.
 
 
-\subsection{Mating designs for two-parent crosses}
+\subsection{QTL mapping in two-parent crosses}
+
+QTL mapping is a systematic, statistical approach to identifying genetic
+loci where genetic variation affects phenotypic variation in a measured trait.
+We use the term ``locus'' to refer to a small, contiguous genomic region, often
+several megabases in length. Standard inputs are genome-wide marker genotypes for a collection of study subjects and a set of trait measurements on the same subjects.
+
+Two major statistical challenges are what \citet{broman2009guide} call 
+the ``missing data'' problem and the ``model selection'' problem. 
+The ``missing data'' problem arises in QTL studies because genotypes are obtained
+at only select markers. In this sense, genotypes at positions between
+markers are ``missing''.
+A flexible framework for resolving the ``missing data'' problem involves a
+hidden Markov model \citep{broman2009guide}. 
+In this hidden Markov model, marker genotypes are observed random variables, 
+while genotypes at intervening bases are unobserved random variables \citep{broman2009guide,broman2006use}. 
+Two sets of recursive equations, termed ``forward'' and ``backward'' equations, enable efficient calculation of genotype probabilities (conditional on the observed marker genotypes) \citep{baum1970maximization}.
 
 
-One widely used mating design is the backcross. Although variations are possible, one typically begins with two inbred lines. Let's designate the two lines as "A" and "B". Mating of lines A and B leads to offspring, which we designate as F$_1$ (to denote the first filial generation). The F$_1$ offspring, then, mate with the A line (ie, the parental line) to produce N$_2$ subjects, where the letter "N" denotes the offspring from a backcross and subscript 2 reflects the generation number.
+%Modern QTL studies have their origins in the work of \citet{sax1923association}. \citet{sax1923association}, working 30 years before \citet{watson1953molecular} reported the molecular structure of DNA, studied seed color and weight in the common bean (\emph{Phaseolus vulgaris}). He used seed color to partition beans into genetic marker classes
 
-We assume that we're working with diploid organisms, so that every subject has two copies - which need not be identical - of each chromosome. Let's assume, further, that we're working with mice, so that every organism has 20 chromosome pairs. 
+% QTL scan (univariate)
+A univariate QTL scan is a procedure to interrogate the entire genome for genetic
+variants that affect a specified trait of interest.
+It requires as inputs genome-wide marker genotypes (or, equivalently,
+genotype probabilities) and trait measurements for a collection of subjects.
+One specifies the form of a statistical model and calculates the
+likelihood of the model parameters given the observed (trait and marker) data. 
+One calculates the likelihood at every marker.
+Next, likelihood ratio test statistics are calculated for every marker.
+These compare, for every marker, the null hypothesis that there is no 
+QTL against the alternative that there is a QTL (at the specified marker).
+In other words, one performs a likelihood ratio test for every marker across the genome.
+One then uses a permutation test to determine a genome-wide critical value
+for the likelihood ratio test statistic \citep{churchill1994empirical}. 
 
-Inbred lines, by definition, are homozygous at all markers. Let's designate, for a given marker, the A line to have two copies of allele A and the B line to have two copies of allele B. 
+% relationship between peak position and QTL 2-lod interval
 
-Let's consider the genetic makeup of the F$_1$ subjects. We first must examine gametogenesis, the process of producing gametes, or reproductive cells, in the parents. Gametogenesis results in production of haploid cells, \emph{i.e.}, cells with only one copy of every chromosome. Two gametes, one from each parent, unite to form a diploid zygote. All F$_1$ subjects are genetically identical. For every chromosome pair, they inherited one copy of the A chromosome (from the A parent) and one copy of the B chromosome (from the B parent). In other words, every F$_1$ subject has genotype AB at every marker, where A the allele from the A parent and B the allele from the B parent. The N$_2$ generation, then, has subjects with either AA or AB genotypes at a given marker. 
 
-To understand whether a given subject has AA or AB genotype at a given marker, we need to consider the fact that gametogenesis involves crossover events before the diploid cells divide into haploid cells. A crossover event results in a swapping of DNA between the two copies of a chromosome. In inbred lines, this swapping of DNA between the two copies of a chromosome is undetectable with marker genotyping, because both chromosomes have the same allele (either two As or two Bs in our example). However, the F$_1$ subjects, with AB marker genotypes, have distinct alleles at every marker. Thus, marker genotyping has the potential to detect crossover events that occur during gametogenesis in the F$_1$ by examining marker genotypes in the N$_2$ subjects. A picture helps to clarify this idea (Figure \ref{}).
+% model form - linear regression
 
-\todo{Add figure here AND add text explaining the figure here}
 
-Another widely used two-parent cross is the "intercross". In it, two inbred lines again mate to produce F$_1$ subjects. Then, however, two F$_1$ subjects mate to produce F$_2$ subjects. The crossover events that occur during gametogenesis in the F$_1$ subjects gives rise to the three marker genotypes observed in F$_2$ subjects: AA, AB, and BB. We present a diagram for the intercross in Figure \ref{}.
-
-\subsection{Quantitative traits}
-
-Quantitative traits typically are those that take continuous values over a (possibly infinite) interval. Distinct analysis methods - typically with statistical tools called "generalized linear models" - are needed for traits that take binary values or one of only a few discrete values or only whole numbers. Examples of quantitative traits include both clinical traits like body weight, height, systolic blood pressure, and fasting blood glucose level and newly measurable biomolecular traits like gene expression levels, protein concentrations, and lipid levels. 
-
-\subsection{Statistical challenges in QTL studies}
-
-\citet{broman2009guide} articulate two statistical challenges: 1. the missing data problem and 2. the model selection problem. 
-
-The missing data problem arises because subjects in QTL experiments typically are genotyped at a set of discrete markers across the genome. They are not genotyped at every nucleotide base. The "missing" genotypes belong to those bases that are not genotyped. Statistical tools for probabilistically handling missing data, often with hidden Markov models, \todo{what did Lander \& Botstein do for missing data problem? How do they infer genotypes between markers?}
+% model form - random effects incorporation
 
 
 
 
-\subsection{QTL mapping in a backcross}
 
 
 
 
-\subsection{QTL mapping in an intercross}
+
+% QTL scan (multivariate)
+
+In anticipation that multivariate mapping of correlated traits would enhance statistical power to detect QTL and would improve precision of QTL positions, both \citet{jiang1995multiple} and \citet{korol1995interval} developed multivariate interval mapping procedures. 
+
+
+In the context of multivariate QTL mapping, \citet{jiang1995multiple} 
+proposed and developed a statistical hypothesis test for distinguishing
+a single pleiotropic locus that affects multiple traits from two (or more)
+separate QTL.
+Their test applies to the setting in which multiple traits
+map to a single genomic region \citep{jiang1995multiple}. 
+That region, then, can be interrogated further by asking whether it
+harbors a single pleiotropic QTL or multiple separate QTL. For simplicity, we focus on the case where two traits both map to a single genomic region, and we wish to determine whether the two traits share a single QTL or have two separate QTL. 
 
 
 
 
-Lander \& Botstein 1989 Haley \& Knott 1992 Martinez \& Curnow 1992
 
-Soller et al 1976
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  Multivariate QTL scan in two-parent crosses
-\end{enumerate}
 
-Jiang \& Zeng 1995 Knott \& Haley 2000
 
-Jiang and Zeng developed multivariate methods for QTL mapping in
-two-parent crosses. They devised a multivariate analog of Zeng's
-composite interval mapping (Zeng 1993, 1994). This strategy treats
-phenotypes as arising from a mixture of normal distributions in which
-each genotype class has distinct distribution parameters. Within this
-multivariate mapping framework, Jiang and Zeng developed the first test
-of pleiotropy vs.~separate QTL.
 
-Jiang and Zeng first developed a test for pleiotropy vs.~separate QTL in
-two-parent crosses. They developed it in the context of their work in
-multivariate QTL studies with composite interval mapping. They framed
-the scientific question of whether two traits are affected by a single,
-shared locus or by two distinct loci in terms of two statistical
-hypotheses. The null hypothesis states that there is a single
-pleiotropic locus that affects both traits, while the alternative
-hypothesis is that there are two distinct but nearby loci, with each
-locus affecting exactly one trait.
 
-Knott and Haley subsequently reported methods for testing pleiotropy
-vs.~separate QTL in two-parent crosses. Knott and Haley integrated their
-earlier work on univariate QTL mapping with marker regression with Jiang
-and Zeng's multivariate methods to develop a test of pleiotropy
-vs.~separate QTL with multivariate marker regression methods.
 
-Jiang and Zeng (1995)
+\subsection{Diversity Outbred Mice}
 
-One disadvantage of multivariate compositive interval mapping is the
-computing requirements for the iterative expectation-maximization
-procedures needed for parameter estimation. This prompted Knott and
-Haley (2000) to develop a marker regression-based approximation to
-multivariate composite interval mapping. Knott and Haley (2000) used a
-multivariate linear model for simultaneous mapping of multiple traits.
-They also presented a multivariate marker regression-based test of
-pleiotropy vs. separate QTL. This test is suitable for subjects that are
-equally related to each other, like the collection of offspring in an
-F\(_2\) intercross of two inbred lines.
+Geneticists sought a mammalian gene mapping resource 
+that could be used for study of a wide variety of quantitative traits. 
+The magnitude of such an undertaking required a collaborative, community-supported approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred (DO) mouse population as such a high-resolution gene mapping resource. They elected to seed the population with partially inbred progenitors of the Collaborative Cross mouse population. The Collaborative Cross mouse mating design involved starting with mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ, NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ.
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{3}
-\tightlist
-\item
-  Multiparental populations
-\end{enumerate}
+The designers used a ``funnel'' mating scheme to generate mice with DNA from all eight founder lines over the course of 3 generations. For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation. AB offspring would then mate with CD offspring and EF offspring would mate with GH mice. Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that contain genetic material from all eight inbred founder lines. Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross. \todo[inline]{make this figure}
 
-\begin{itemize}
-\tightlist
-\item
-  what are they? Breeding design for CC \& DO. Why use them?
-\end{itemize}
+The designers of the Diversity Outbred population started with \todo[inline]{get number of mice and from which generations}
 
-While QTL mapping studies in the 1990s contributed to many advances in
-genetics and biology, complex trait researchers recognized the mapping
-resolution limitations in crosses involving two inbred lines. Seeking
-greater precision for QTL positions, scientific communities collectively
-decided to pool their expertise and resources into community-supported
-and community-maintained model organism mapping populations. These new
-mapping populations would incorporate genetic material from more than
-two inbred founder lines. The accumulated meiotic recombination events
-over many generations would enhance mapping resolution over previously
-available populations.
+Due to the breeding scheme, each Diversity Outbred mouse is a highly heterozygous mosaic of 
+founders' DNA (Figure~)\todo{add figure with mosaics over multiple generations here}. 
+With each generation, the Diversity Outbred mice accumulate meiotic recombinations. 
+This is because each mouse inherits DNA from its parents, and each meiosis provides opportunities for recombinations. \todo[inline]{need to explain this better. How does Andrew explain it in his thesis?}
 
-Products of these community-based efforts include the Collaborative
-Cross and Diversity Outbred populations from mouse researchers and
-Drosophila Synthetic Population Resource \citep{king2012genetic} and  in the fruit fly
-scientific community. In subsequent years, scientists created
-multiparental populations in many other organisms, including tomato, rice, maize \citep{lehermeier2014usefulness}, wheat \citep{mackay2014eight, huang2012multiparent, milner2016multiparental}, Arabidopsis \citep{}, apple \citep{allard2016detecting}
+The cumulative effect of recombinations over many generations of outbreeding is to create mice whose DNA mosaic contains smaller and smaller contiguous pieces from each founder line. 
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{4}
-\tightlist
-\item
-  Univariate QTL mapping in MPP
-\end{enumerate}
+The Diversity Outbred mice enable high-resolution QTL mapping \citep{gatti2014quantitative}. One factor that contributes to high-resolution mapping is the ability to infer the founder line from which each marker's DNA arose. 
 
-\begin{itemize}
-\tightlist
-\item
-  contrast with univariate QTL mapping in two-parent crosses
-\end{itemize}
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{5}
-\tightlist
-\item
-  Multivariate mapping in mpp
-\end{enumerate}
 
-6A.
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{6}
-\tightlist
-\item
-  Testing pleiotropy vs separate QTL in MPP
-\end{enumerate}
+\subsection{QTL mapping in DO mice}
 
-Testing pleiotropy vs.~separate
+QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
 
-7A. allele effects plots to discern pleiotropy v separate QTL
+The next step, missing genotypes inference, is needed because of the ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele genotypes at the measured SNP markers. An expectation maximization algorithm \citep{dempster1977maximum} for a hidden Markov model, developed by \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all nuclear autosomal markers and pseudomarkers. Pseudomarkers, as we use the term, are arbitrary nucleotide bases at which the researcher wants 36-state genotype probabilities. Finally, we collapse the 36-state genotype probabilities to eight founder allele dosages at each marker and for every mouse before performing linear regression to identify QTL for every univariate trait. 
 
-King et al 2012 Macdonald \& Long 2007 \emph{maybe do a citation search
-on these 2 articles to see who has used their ideas} CAPE software
-package - what exactly is the CAPE method???
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{7}
-\tightlist
-\item
-  Testing pleiotropy vs separate QTL to dissect an expression trait
-  hotspot Tian et al.~2016. ?Schadt et al.~2005?
-\end{enumerate}
+
+\subsection{Testing pleiotropy in two-parent crosses (Jiang \& Zeng}
+
+\citet{jiang1995multiple} developed a suite of methods for analyzing multivariate phenotypes in two-parent crosses. Among the novel methods in their article is a test of pleiotropy vs separate QTL. They explain that such a test is useful when two traits map to a single genomic region. The question then arises ``do the two traits associate with the same locus, or do they associate with separate loci''?
+
+If both traits associate with the same locus, then that locus is called ``pleiotropic''. If the two traits associate with separate loci, then we say that they have separate QTL (one for each trait). While ``pleiotropy'' has multiple related usages in the genetics literature, we use ``pleiotropy'' here to refer to the situation in which one genetic locus affects two or more traits. 
+
+In the development of their test of pleiotropy v separate QTL, Jiang and Zeng model the multivariate phenotype as the sum of a linear function of the genotypes and a random error term. They assume that the phenotypes matrix is related to the genotypes data (for a single marker) through the following equation:
+
+
+\begin{equation}
+Y = XB + E
+\end{equation}
+
+
+\noindent Where Y is a n by 2 matrix of phenotype values (with each row being one subject and each column being one trait), X is a n by 1 matrix of genotypes and B is a 1 by 2 matrix of allele effects. The random error is assumed to follow a normal distribution with mean zero and a positive variance. Jiang and Zeng (1995) also incorporate additional terms to model dominant effects and to control for residual genetic variation. We forego inclusion of dominant terms and additional markers for controlling residual genetic variation. 
+
+
+\citet{jiang1995multiple} use a mixture model to relate genotypes to phenotypes. They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F2 population. They thus approach the problem as one with a 9-state mixture model. They provide the equations needed for an expectation-conditional maximization (ECM) algorithm for fitting the mixture model. They use a chi-square distribution with one degree of freedom as the null distribution of the test statistic. 
+
+Further investigations by \citet{jiang1995multiple} with simulations revealed reasonable behavior of the hypothesis test under the specified conditions. 
+They learned that dense marker coverage tends to aid in distinguishing pleiotropy from separate QTL. \todo[inline]{look back at JZ 1995's simulations. How did they examine power and type I error rates? Do they examine univariate LOD strength when considering power? What about interlocus distance?}
+
+
+
+
+
+
+
+
+
+
+ Finding values that minimize the sum of squared residuals - THINK ABOUT WHAT A RESIDUAL IS HERE… a matrix? - They use a computational algorithm called “expectation - conditional maximization” to find these values. ECM is an iterative algorithm. The user inputs starting values for the parameters and the algorithm changes them one at a time until the change in log likelihood between successive iterations is sufficiently small. The algorithm is then said to have ``converged''. The final iteration’s parameter values are treated as those that maximize the likelihood.
+
+
+Jiang \& Zeng (1995), in the context of their multivariate QTL mapping methods, describe a test of pleiotropy vs separate QTL. They formulate their question as a statistical hypothesis test in which the null hypothesis is pleiotropy while the the alternative hypothesis is separate QTL. In other words, they consider the case in which the two traits map to the same locus (ie, pleiotropy) as a special case of the more general setting (separate QTL) in which the two traits may or may not map to the same locus. In statistical terminology, one would say that the parameter space is restricted under the null hypothesis.
+
+Jiang and Zeng then calculate the likelihoods of the two models (that under the hypothesis of pleiotropy and that under the hypothesis of separate QTL) at each ordered pair of putative loci in the genomic region of interest. The likelihood ratio test statistic is the logarithm of the ratio of the maximum of the likelihoods under pleiotropy to the maximum of the likelihoods under the separate QTL hypothesis. 
+
+Jiang and Zeng determined p-values for their test statistics by comparing them to a theoretical null distribution. In this specific case, Jiang and Zeng reasoned that the null distribution of their test statistic is a chi-squared distribution with 1 degree of freedom. Their justification for this is based on asymptotic statistics theory.
+
+Schadt et al (2005) extended the methods of Jiang and Zeng (1995). 
+
+
+
+
+
+\printbibliography
 
 
 \end{document}
