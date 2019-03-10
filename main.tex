@@ -329,19 +329,28 @@ Modern QTL studies have their origins in the work of \citet{sax1923association}.
 \citet{sax1923association}, working 30 years before \citet{watson1953molecular} reported
 the molecular structure of DNA, studied seed color and weight in the common bean
 (\emph{Phaseolus vulgaris}). He used seed color to partition beans into genetic
-marker classes and identified an association between marker class and bean weight. This told him that 
+marker classes and identified an association between marker class and bean weight. Implicitly, \citet{sax1923association} leveraged the association between marker genotype class and seed color to assign beans to genetic marker classes without having explicit genotype data.
+
 
 
 \citet{lander1989mapping}, in a landmark methodology report, presented
 interval mapping as a strategy to identify QTL. 
-In interval mapping, they leverage the correlations between genetic markers
+In interval mapping, they used the correlations between genetic markers
 to infer genotype probabilities between markers.
 They then use an expectation maximization algorithm \citep{dempster1977maximum, lander1987construction}
-to fit a statistical mixture model with a normally distributed component for each genotype class. 
+to fit a statistical mixture model with a normally distributed component for each of three genotype classes. 
 They summarized the evidence for a QTL at each position with the log odds (LOD) score statistic.
 The LOD score is the base 10 log likelihood ratio test statistic for
 the competing hypotheses of the presence of a QTL at the candidate position
-against the null hypothesis of no QTL at the candidate position.
+against the null hypothesis of no QTL at the candidate position. 
+The work of \citet{lander1989mapping} fueled interest in QTL mapping from
+both biologists and statisticians.
+Many of the open questions that \citet{lander1989mapping} present, including approaches
+for defining QTL endpoints, accounting for multiple hypothesis tests, and
+allowing for genotyping errors when inferring genotype probabilities,
+are active areas of research 30 years after their publication.
+
+
 
 
 
