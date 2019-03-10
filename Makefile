@@ -37,8 +37,11 @@ all: $(PROJNAME).pdf
 # -interactive=nonstopmode keeps the pdflatex backend from stopping at a
 # missing file reference and interactively asking you for an alternative.
 
+$(PROJNAME).tex: $(PROJNAME).Rnw
+	Rscript -e "knitr::knit('$<')"
+
 $(PROJNAME).pdf: $(PROJNAME).tex 
-	latexmk -pdf -pdflatex="pdflatex -interactive=nonstopmode" -use-make $<
+	latexmk -pdfps -pdf -use-make $<
 
 cleanall:
 	latexmk -C

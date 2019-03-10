@@ -1,4 +1,5 @@
 .Rproj.user
+appD.tex
 .Rhistory
 .RData
 .Ruserdata
@@ -16,3 +17,4 @@ main.fls
 main.lof
 main.lot
 main.tdo
+comments
