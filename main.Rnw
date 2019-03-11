@@ -103,7 +103,7 @@
 <<include=FALSE>>=
 library(knitr)
 opts_chunk$set(
-concordance=TRUE, echo = FALSE
+concordance=TRUE, echo = FALSE, fig.lp = "fig:"
 )
 @
 
@@ -124,24 +124,13 @@ Tracing its origins back to \citet{sax1923association}, a genome-wide QTL ``scan
 associations between genotypes and phenotypes by considering every position, one at a time, as a candidate QTL for the trait of interest.
 A region with strong evidence of association, then, defines a QTL. Because nearby markers have correlated
 genotypes, a QTL in a two-parent cross often spans multiple megabases in length and may contain more than a hundred genes.
-Identification of the causal gene from among those genes contained in the QTL is challenging and may require costly and time-consuming experiments. 
-Growing needs for greater QTL mapping resolution fueled development, over the last two decades, of model organism multiparental populations for high-resolution QTL mapping.
+Identification of the causal gene from among those genes near the QTL is challenging and may require costly and time-consuming experiments. 
+Growing needs for greater QTL mapping resolution fueled development, over the last two decades, of model organism multiparental populations for high-resolution QTL mapping. I argue below for the need for a pleiotropy test in multiparental populations. Before we discuss multiparental populations, I motivate the study of pleiotropy and review designs for two-parent crosses, QTL mapping in two-parent crosses, and pleiotropy testing in two-parent crosses. 
 
 <<pkgs>>=
 library(qtl)
 library(knitr)
 @
-
-
-
-
-
-% paragraph 2
-Testing pleiotropy vs. separate QTL in model organisms can aid understanding of 
-genetic architecture and reveal insights into biomolecular interactions in 
-diverse areas including metagenomics, metabolomics, and behavioral genetics.
-The need to test pleiotropy arises when two (or more) traits demonstrate evidence 
-of univariate QTL in a single, shared genomic region. 
 
 
 
@@ -168,17 +157,17 @@ Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently be
 \end{figure}
 
 
-DNA variants that affect a trait like systolic blood pressure
-can be identified by systematically looking for correlations with genotypes at different positions across the genome.
 
 Complex traits include
 clinical measurements, such as systolic blood pressure and body weight, as
 well as newly measurable biomolecular traits like gene expression
 levels, protein concentrations, and lipid levels.
 Understanding the
-genetics of complex traits may inform the fields of biology,
+genetics of these and other complex traits may inform the fields of biology,
 medicine, and public health.
 %two-parent designs: intercross & backcross
+
+
 
 
 %mapping populations
@@ -205,69 +194,11 @@ that result from backcrosses and intercrosses in two-parent designs.
 
 % genotype data & hmm to infer 36-state genotype probabilities
 
-\begin{figure} % courtesy of Karl Broman & S. Sen (2009)
-\setlength{\unitlength}{0.7cm}
-\centering
-\begin{picture}(15,4)
-
-% dots
-\put(0,1.0){\circle{0.3}}
-\put(2.5,1.0){\circle{0.3}}
-\put(5,1.0){\circle{0.3}}
-\put(10,1.0){\circle{0.3}}
-\put(15,1.0){\circle{0.3}}
-\put(0,2.5){\circle{0.3}}
-\put(2.5,2.5){\circle{0.3}}
-\put(5,2.5){\circle{0.3}}
-\put(10,2.5){\circle{0.3}}
-\put(15,2.5){\circle{0.3}}
-
-% vectors
-\thicklines
-\put(0,1.3){\vector(0,1){0.9}}
-\put(2.5,1.3){\vector(0,1){0.9}}
-\put(5,1.3){\vector(0,1){0.9}}
-\put(10,1.3){\vector(0,1){0.9}}
-\put(15,1.3){\vector(0,1){0.9}}
-
-\put(0.6,1.0){\vector(1,0){1.3}}
-\put(3.1,1.0){\vector(1,0){1.3}}
-\put(5.6,1.0){\vector(1,0){1.3}}
-\put(8.1,1.0){\vector(1,0){1.3}}
-\put(10.6,1.0){\vector(1,0){1.3}}
-\put(13.1,1.0){\vector(1,0){1.3}}
-
-% the tiny dots
-\put(7.2,1.0){\circle*{0.05}}
-\put(7.5,1.0){\circle*{0.05}}
-\put(7.8,1.0){\circle*{0.05}}
-\put(12.2,1.0){\circle*{0.05}}
-\put(12.5,1.0){\circle*{0.05}}
-\put(12.8,1.0){\circle*{0.05}}
-
-% symbols
-\put(-0.2,0){$G_1$}
-\put(2.3,0){$G_2$}
-\put(4.8,0){$G_3$}
-\put(9.75,0){$G_i$}
-\put(14.75,0){$G_n$}
-
-\put(-0.2,3.0){$O_1$}
-\put(2.3,3.0){$O_2$}
-\put(4.7,3.0){$O_3$}
-\put(9.75,3.0){$O_i$}
-\put(14.75,3.0){$O_n$}
-\end{picture}
-\caption{Illustration of a hidden Markov model. $G$'s indicate
-  underlying genotypes; $O$'s indicate observed marker
-  phenotypes.\label{figD:hmm}} 
-\end{figure}
 
 
 
 
-
-%mapping genetic markers to measurable traits
+%mapping genetic markers to measurable traits in MPP
 
 
 
@@ -294,8 +225,7 @@ that result from backcrosses and intercrosses in two-parent designs.
 
 %roadmap
 Below, I present background material on statistical methods in quantitative trait locus
-(QTL) mapping.
-AfterI begin with an overview of
+(QTL) mapping. I begin with an overview of two-parent designs and 
 QTL mapping in two-parent crosses.
 I then discuss pleiotropy testing in two-parent crosses before considering newly
 developed multiparental populations.
@@ -303,7 +233,11 @@ I present the design for one multiparental population, the Diversity Outbred mic
 I close the first chapter by arguing for the need for a pleiotropy test for multiparental populations.
 
 
-\subsection{Two-parent crosses}
+\subsection{Designs for two-parent crosses}
+
+Two widely used two-parent crosses are the ``backcross'' and the ``intercross''. We first discuss the backcross design (Figure~\ref{fig:backcross}). A backcross starts with mating between members of two inbred lines. The offspring of this mating event, termed the ``F$_1$'', or ``first filial'', generation then mate with members of one of the two parent lines. The experiment designers decide which line the female is chosen from and which line the F$_1$ mate with. Thus, there are a total of four possible backcrosses for any pair of inbred lines. 
+
+As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation ``BC'') have, for any locus, only two possible genotypes: heterozygote (AB) and homozygote (AA in the figure). 
 
 <<backcross, fig.cap = "Breeding scheme for a backcross. Each pair of autosomes represents a single subject.", fig.lp="fig:">>=
 # load utility functions
@@ -374,7 +308,64 @@ text(38-25,95/2,"BC",cex=1.5,adj=c(1,0.5))
 @
 
 
+<<intercross, fig.cap = "Breeding scheme for an intercross. Each pair of autosomes represents a single subject.", fig.lp="fig:">>=
+par(mar=rep(0.1,4), bty="n")
+plot(0,0,xlim=c(-15,864),ylim=c(0,480),xaxt="n",yaxt="n",xlab="",ylab="",type="n")
+xd <- 2
+rect(c(300-xd,328-xd)+25,c(480,480),c(310+xd,338+xd)+25,c(385,385), lend=1, ljoin=1,
+     col=lightblue)
+rect(c(526-xd,554-xd)-25,c(480,480),c(536+xd,564+xd)-25,c(385,385),
+     col=pink, lend=1, ljoin=1)
 
+points(432,440,pch=4,cex=1.5)
+segments(432,400,432,340)
+segments(319+25,340,545-25,340)
+arrows(c(319+25,545-25),c(340,340),c(319+25,545-25),c(300,300),len=0.1)
+
+text(300,(480+385)/2,"A",cex=1.5,adj=c(1,0.5))
+text(564,(480+385)/2,"B",cex=1.5,adj=c(0,0.5))
+
+rect(300-xd+25,287,310+xd+25,192, lend=1, ljoin=1, col=lightblue)
+rect(328-xd+25,287,338+xd+25,192, col=pink, lend=1, ljoin=1)
+rect(526-xd-25,287,536+xd-25,192, lend=1, ljoin=1, col=lightblue)
+rect(554-xd-25,287,564+xd-25,192, col=pink, lend=1, ljoin=1)
+
+points(432,247,pch=4,cex=1.5)
+segments(432,207,432,147)
+segments(57,147,849,147)
+arrows(seq(57,849,by=88),rep(147,10),seq(57,849,by=88),rep(107,10),len=0.1)
+
+text(300,(287+192)/2,expression(F[1]),cex=1.5,adj=c(1,0.5))
+text(564,(287+192)/2,expression(F[1]),cex=1.5,adj=c(0,0.5))
+
+f1 <- create.par(100,c(1,2))
+set.seed(999)
+f2 <- vector("list",10)
+for(i in 1:10) f2[[i]] <- cross(f1,f1,m=10,obl=TRUE)
+
+xloc <- 38
+mult <- 95/f2[[1]]$mat[1,ncol(f2[[1]]$mat)]
+for(i in 1:10) {
+  rect(xloc-xd,0,xloc+10+xd,95, lend=1, ljoin=1, col=lightblue)
+  rect(xloc+28-xd,0,xloc+38+xd,95, lend=1, ljoin=1, col=lightblue)
+
+  f2m <- f2[[i]]$mat
+  for(j in 2:ncol(f2m)) {
+    if(f2m[2,j]==2)
+      rect(xloc-xd,f2m[1,j]*mult,xloc+10+xd,f2m[1,j-1]*mult,
+            col=pink, lend=1, ljoin=1)
+  }
+  f2p <- f2[[i]]$pat
+  for(j in 2:ncol(f2p)) {
+    if(f2p[2,j]==2)
+      rect(xloc+28-xd,f2p[1,j]*mult,xloc+38+xd,f2p[1,j-1]*mult,
+            col=pink, lend=1, ljoin=1)
+  }
+  xloc <- xloc+38+50
+}
+text(38-25,95/2,expression(F[2]),cex=1.5,adj=c(1,0.5))
+
+@
 
 
 \subsection{QTL mapping in two-parent crosses}
@@ -407,6 +398,7 @@ One then uses a permutation test to determine a genome-wide critical value
 for the likelihood ratio test statistic \citep{churchill1994empirical}.
 Those loci for which the likelihood ratio test statistic is sufficiently large are declared QTL. 
 
+
 Modern QTL studies have their origins in the work of \citet{sax1923association}.
 \citet{sax1923association}, working 30 years before \citet{watson1953molecular} reported
 the molecular structure of DNA, studied seed color and weight in the common bean
@@ -425,7 +417,7 @@ They summarized the evidence for a QTL at each position with the log odds (LOD) 
 The LOD score is the base 10 log likelihood ratio test statistic for
 the competing hypotheses of the presence of a QTL at the candidate position
 against the null hypothesis of no QTL at the candidate position. 
-The work of \citet{lander1989mapping} fueled interest in QTL mapping from
+The work of \citet{lander1989mapping} ignited interest in QTL mapping from
 both biologists and statisticians.
 Many of the open questions that \citet{lander1989mapping} present, including approaches
 for defining QTL endpoints, accounting for multiple hypothesis tests, and
@@ -456,7 +448,6 @@ enable efficient calculation of genotype probabilities
 
 %
 
-% relationship between peak position and QTL 2-lod interval - NO
 
 
 
@@ -480,27 +471,22 @@ Assuming that the random errors are normally distributed (and independent with c
 variance $\sigma^2$), one may use the statistical technique called ``ordinary least squares''
 to fit the model and to solve for $\hat b$ and $\hat \sigma^2$.
 In ``ordinary least squares'', one solves for the set of parameter values that
-minimize the residual sum of squares. In the above equation, our two parameters are the minor allele effect and the random error variance. The residual sum of squares is an expression that tells us how far each observed data point is from its predicted value for a set of specified parameter values. Equation~\ref{} defines residual sum of squares for a univariate QTL analysis.
+minimize the residual sum of squares. In the above equation, our two parameters are the minor allele effect and the random error variance. The residual sum of squares is an expression that tells us how far each observed data point is from its predicted value for a set of specified parameter values. Equation~\ref{eq:rss} defines residual sum of squares for a univariate QTL analysis.
 
 \begin{equation}
-\text{residual sum of squares} = \left(\text{fitted trait value} - \text{observed trait value}\right)^2
+\text{residual sum of squares} = \left(\text{fitted trait value} - \text{observed trait value}\right)^2\label{eq:rss}
 \end{equation}
-
-
-
-
-
-
-
-
-
-
 
 
 
 % QTL scan (multivariate) in 2-parent crosses
 
-In anticipation that multivariate mapping of correlated traits would enhance statistical power to detect QTL and would improve precision of QTL positions, both \citet{jiang1995multiple} and \citet{korol1995interval} developed multivariate interval mapping procedures. \todo[inline]{say more here}
+In anticipation that multivariate mapping of correlated traits would enhance statistical power to detect QTL and would improve precision of QTL positions, both \citet{jiang1995multiple} and \citet{korol1995interval} developed multivariate interval mapping procedures. 
+
+
+
+
+\todo[inline]{say more here}
 
 In the context of multivariate QTL mapping, \citet{jiang1995multiple} 
 proposed and developed a statistical hypothesis test for distinguishing
@@ -527,7 +513,256 @@ Near the turn of the century, geneticists sought a mammalian gene mapping resour
 that could be used for study of a wide variety of quantitative traits. 
 The magnitude of such an undertaking required a collaborative, community-supported approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred (DO) mouse population as such a high-resolution gene mapping resource. They elected to seed the population with partially inbred progenitors of the Collaborative Cross mouse population. The Collaborative Cross mating design started with mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ, NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ.
 
-The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate mice with DNA from all eight founder lines over the course of 3 generations. For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation. AB offspring would then mate with CD offspring and EF offspring would mate with GH mice. Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that contain genetic material from all eight inbred founder lines. Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross. \todo[inline]{make this figure}
+The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate mice with DNA from all eight founder lines over the course of 3 generations. The term ``funnel'' refers to the design for the first 3 mating generations in which the DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders. For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation (Figure~\ref{fig:ri8}). AB offspring would then mate with CD offspring and EF offspring would mate with GH mice. Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that contain genetic material from all eight inbred founder lines. Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
+
+<<ri8, fig.lp="fig:", fig.cap="Schematic for a single funnel in the Collaborative Cross breeding design.">>=
+color <- c(rgb(102,203,254,maxColorValue=255), # light blue
+           rgb(254,  0,128,maxColorValue=255), # dark pink
+           rgb(102,254,102,maxColorValue=255), # light green
+           rgb(128,  0,128,maxColorValue=255), # dark purple
+           rgb(203,102,254,maxColorValue=255), # light purple
+           rgb(254,203,102,maxColorValue=255), # yellow/gold
+           rgb(  0,128,128,maxColorValue=255), # dark green
+           rgb(102,102,102,maxColorValue=255)) # gray
+
+#bgcolor <- rgb(0, 0, 80, maxColorValue=255)
+#bgcolor <- rgb(37, 37, 37, maxColorValue = 255)
+bgcolor <- rgb(24, 24, 24, maxColorValue = 255)
+#bgcolor <- "white"
+
+# text
+color2 <- c(rgb(255, 255, 102, maxColorValue=255), # yellow
+            rgb(102, 204, 255, maxColorValue=255), # light blue
+            rgb(255, 102, 255, maxColorValue=255)) # pink
+
+CCcolor <- c(rgb(240,240,  0,maxColorValue=255), # yellow
+           rgb(128,128,128,maxColorValue=255),   # gray
+           rgb(240,128,128,maxColorValue=255),   # salmon
+           rgb( 16, 16,240,maxColorValue=255),   # dark blue
+           rgb(  0,160,240,maxColorValue=255),   # light blue
+           rgb(  0,160,  0,maxColorValue=255),   # green
+           rgb(240,  0,  0,maxColorValue=255),   # red/pink
+           rgb(144,  0,224,maxColorValue=255))   # purple
+
+hetcolor <- rgb(0, 200, 0, maxColorValue=255)    # green
+f2color <- c(CCcolor[1], hetcolor, CCcolor[5])   # yellow, green, cyan
+sexcolor <- c(rgb(255,80,80, maxColorValue=255), # pink, blue
+              CCcolor[5])
+
+textcolor <- c(yellow=rgb(1, 1, 0.7),
+               blue=rgb(0.4,0.8,1),
+               darkblue=rgb(0, 0.25, 0.5),
+               pink=rgb(1,0.7,1),
+               hotpink=rgb(1,0,0.6))
+
+##############################
+# RI lines
+##############################
+color <- c(rgb(102,203,254,maxColorValue=255),
+#           rgb(254,102,254,maxColorValue=255),
+           rgb(254,  0,128,maxColorValue=255),
+           rgb(102,254,102,maxColorValue=255),
+           rgb(128,  0,128,maxColorValue=255),
+           rgb(203,102,254,maxColorValue=255),
+           rgb(254,203,102,maxColorValue=255),
+           rgb(  0,128,128,maxColorValue=255),
+           rgb(102,102,102,maxColorValue=255))
+
+#bitmap(file="../Figs/ri8.bmp", width=9, height=5, res=288,
+#       pointsize=14)
+par(mar=rep(0.1,4),las=1,fg="white",col="white",col.axis="white",col.lab="white",
+    bg=bgcolor,bty="n")
+plot(0,0,xlim=c(0,864),ylim=c(25,480),xaxt="n",yaxt="n",xlab="",ylab="",type="n")
+
+u <- par("usr")
+text(u[1],460,expression(G[0]),adj=c(0,0.5))
+
+xloc <- 10
+for(i in 1:8) {
+  rect(xloc,480,xloc+10,440,col=color[i],border=color[i], lend=1, ljoin=1)
+  rect(xloc+28,480,xloc+38,440,col=color[i],border=color[i], lend=1, ljoin=1)
+  text(xloc+19,430,LETTERS[i],adj=c(0.5,1))
+
+  if((i %% 2)==0) {
+    points(xloc-27.5,460,pch=4,cex=1.3)
+    arrows(xloc-27.5,445,xloc-27.5,410,len=0.1)
+  }
+
+  xloc <- xloc+38+55
+  if((i %% 2)==0) xloc <- xloc+50
+}
+
+xloc <- 10+38+55-27.5
+xxloc <- NULL
+for(i in 1:4) {
+  xxloc <- c(xxloc,xloc)
+  rect(xloc-19,400,xloc- 9,360,col=color[2*i-1],border=color[2*i-1], lend=1, ljoin=1)
+  rect(xloc+ 9,400,xloc+19,360,col=color[2*i],border=color[2*i], lend=1, ljoin=1)
+#  text(xloc,350,paste(LETTERS[2*i-1],LETTERS[2*i],sep=""),adj=c(0.5,1))
+  text(xloc-14,350,LETTERS[2*i-1],adj=c(0.5,1))
+  text(xloc+14,350,LETTERS[2*i],adj=c(0.5,1))
+
+  xloc <- xloc+(38+55)*2+50
+}
+xxloc <- c(mean(xxloc[1:2]),mean(xxloc[3:4]))
+points(xxloc[1],380,pch=4,cex=1.3)
+arrows(xxloc[1],365,xxloc[1],330,len=0.1)
+points(xxloc[2],380,pch=4,cex=1.3)
+arrows(xxloc[2],365,xxloc[2],330,len=0.1)
+text(u[1],380,expression(G[1]),adj=c(0,0.5))
+
+file <- "_cache/for_ri8_fig.RData"
+if(file.exists(file)) {
+    load(file)
+} else {
+    f1 <- vector("list",4)
+    for(i in 1:4) f1[[i]] <- create.par(100,c(2*i-1,2*i))
+    set.seed(112099)
+    f2a <- cross(f1[[1]],f1[[2]],m=10,obl=TRUE)
+    f2b <- cross(f1[[3]],f1[[4]],m=10,obl=TRUE)
+    f3a <- cross(f2a,f2b,m=10,obl=TRUE)
+    f3b <- cross(f2a,f2b,m=10,obl=TRUE)
+    f4a <- cross(f3a,f3b,m=10,obl=TRUE)
+    f4b <- cross(f3a,f3b,m=10,obl=TRUE)
+    temp <- list(f4a,f4b)
+    for(i in 1:30) {
+        fa <- cross(temp[[1]],temp[[2]],m=10,obl=TRUE)
+        fb <- cross(temp[[1]],temp[[2]],m=10,obl=TRUE)
+        temp <- list(fa,fb)
+    }
+    save(f1,f2a,f2b,f3a,f3b,f4a,f4b,fa,file=file)
+}
+
+rect(xxloc[1]-19,320,xxloc[1]- 9,280,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc[1]+ 9,320,xxloc[1]+19,280,col=color[3],border=color[3], lend=1, ljoin=1)
+rect(xxloc[2]-19,320,xxloc[2]- 9,280,col=color[5],border=color[5], lend=1, ljoin=1)
+rect(xxloc[2]+ 9,320,xxloc[2]+19,280,col=color[7],border=color[7], lend=1, ljoin=1)
+
+mult <- 40/f2a$mat[1,ncol(f2a$mat)]
+temp <- f2a$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]==2)
+    rect(xxloc[1]-19,280+temp[1,j]*mult,xxloc[1]-9,280+temp[1,j-1]*mult,
+         col=color[2],border=color[2], lend=1, ljoin=1)
+}
+temp <- f2a$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]==4)
+    rect(xxloc[1]+ 9,280+temp[1,j]*mult,xxloc[1]+19,280+temp[1,j-1]*mult,
+         col=color[4],border=color[4], lend=1, ljoin=1)
+}
+temp <- f2b$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]==6)
+    rect(xxloc[2]-19,280+temp[1,j]*mult,xxloc[2]-9,280+temp[1,j-1]*mult,
+         col=color[6],border=color[6], lend=1, ljoin=1)
+}
+temp <- f2b$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]==8)
+    rect(xxloc[2]+9,280+temp[1,j]*mult,xxloc[2]+19,280+temp[1,j-1]*mult,
+         col=color[8],border=color[8], lend=1, ljoin=1)
+}
+
+text(u[1],300,expression(G[2]),adj=c(0,0.5))
+#text(xxloc,270,c("ABCD","EFGH"),adj=c(0.5,1))
+text(xxloc[1]-14,270,"AB",adj=c(0.5,1))
+text(xxloc[1]+14,270,"CD",adj=c(0.5,1))
+text(xxloc[2]-14,270,"EF",adj=c(0.5,1))
+text(xxloc[2]+14,270,"GH",adj=c(0.5,1))
+xxloc <- mean(xxloc)
+points(xxloc,300,pch=4,cex=1.3)
+segments(xxloc,285,xxloc,265)
+segments(xxloc-39,265,xxloc+39,265)
+arrows(xxloc+39*c(-1,1),265,xxloc+39*c(-1,1),245,len=0.1)
+
+
+rect(xxloc-58,235,xxloc-48,195,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc-30,235,xxloc-20,195,col=color[5],border=color[5], lend=1, ljoin=1)
+rect(xxloc+20,235,xxloc+30,195,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc+48,235,xxloc+58,195,col=color[5],border=color[5], lend=1, ljoin=1)
+
+temp <- f3a$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc-58,195+temp[1,j]*mult,xxloc-48,195+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f3a$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=5)
+    rect(xxloc-30,195+temp[1,j]*mult,xxloc-20,195+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f3b$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc+20,195+temp[1,j]*mult,xxloc+30,195+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f3b$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=5)
+    rect(xxloc+48,195+temp[1,j]*mult,xxloc+58,195+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+text(u[1],215,expression(G[3]),adj=c(0,0.5))
+points(xxloc,215,pch=4,cex=1.3)
+segments(xxloc,200,xxloc,180)
+segments(xxloc-39,180,xxloc+39,180)
+arrows(xxloc+39*c(-1,1),180,xxloc+39*c(-1,1),160,len=0.1)
+
+
+rect(xxloc-58,150,xxloc-48,110,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc-30,150,xxloc-20,110,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc+20,150,xxloc+30,110,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc+48,150,xxloc+58,110,col=color[1],border=color[1], lend=1, ljoin=1)
+
+temp <- f4a$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc-58,110+temp[1,j]*mult,xxloc-48,110+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f4a$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc-30,110+temp[1,j]*mult,xxloc-20,110+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f4b$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc+20,110+temp[1,j]*mult,xxloc+30,110+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f4b$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc+48,110+temp[1,j]*mult,xxloc+58,110+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+text(u[1],130,expression(G[4]),adj=c(0,0.5))
+points(xxloc,130,pch=4,cex=1.3)
+arrows(xxloc,80,xxloc,75,len=0.1)
+arrows(xxloc,115,xxloc,75,len=0.1,lty=3)
+
+points(rep(u[1]+10,3),c(-8,0,8)+mean(c(130,65/2)),pch=16,cex=0.4)
+a <- 65-40
+text(u[1],(65+a)/2,expression(G[infinity]),adj=c(0,0.5))
+mult <- (65-a)/fa$mat[1,ncol(fa$mat)]
+rect(xxloc+19*c(-1,1),rep(65,2),xxloc+9*c(-1,1),rep(a,2),col=color[1],border=color[1], lend=1, ljoin=1)
+temp <- fa$mat
+for(j in 2:ncol(fa$mat)) {
+  if(temp[2,j]!=1)
+    rect(xxloc+19*c(-1,1),rep(a,2)+temp[1,j]*mult,xxloc+9*c(-1,1),rep(a,2)+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+
+@
+
+
+
 
 The designers of the Diversity Outbred population started with \todo[inline]{get number of mice and from which generations}
 
@@ -640,12 +875,15 @@ in which the two traits may or may not map to the same locus.
 
 In statistical terminology, one would say that the parameter space is restricted under the null hypothesis. Here, the parameter space is the collection of ordered pairs of markers in the genomic region of interest. The restriction of that collection under pleiotropy corresponds to limiting consideration to only those ordered pairs that have both traits mapping to a single locus. 
 
+We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fig:encircle}). Each point in the grid corresponds to an ordered pair of markers. Along the horizontal axis are the markers for the first component of the ordered pair; the second component of the ordered pair is indicated by the vertical axis. The red points correspond to those that are considered under the pleiotropy hypothesis. Under the alternative hypothesis, all grid points are considered. 
+
+
 <<ggalt>>=
 library(tidyverse)
 library(ggalt) #contains geom_encircle
 @
 
-<<encircle, fig.cap = "Two-dimensional grid of ordered pairs of markers.">>=
+<<encircle, out.height = '4in', out.width='6in', fig.cap = "Two-dimensional grid of ordered pairs of markers.", fig.lp="fig:">>=
 # two-dimensional grid for pleiotropy testing
 c1 <- c(rep(1:5, each = 5), 1:5)
 c2 <- c(rep(1:5, times = 5), 1:5)
