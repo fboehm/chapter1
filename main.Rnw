@@ -68,7 +68,8 @@
 \usepackage[
     backend=biber,
     style=authoryear,
-    natbib=true,
+    citestyle=authoryear,
+    natbib=true, %citet and citep
     url=true, 
     doi=true,
     eprint=true,
@@ -425,12 +426,6 @@ allowing for genotyping errors when inferring genotype probabilities,
 are active areas of research 30 years after their publication.
 
 
-
-
-
-
-
-
 %statistical challenges in QTL mapping
 Two major statistical challenges are what \citet{broman2009guide} call 
 the ``missing data'' problem and the ``model selection'' problem. 
@@ -444,12 +439,6 @@ while genotypes at intervening bases are unobserved random variables \citep{brom
 Two sets of recursive equations, termed ``forward'' and ``backward'' equations,
 enable efficient calculation of genotype probabilities
 (conditional on the observed marker genotypes) \citep{baum1970maximization}.
-
-
-%
-
-
-
 
 
 % model form - linear regression
@@ -481,7 +470,10 @@ minimize the residual sum of squares. In the above equation, our two parameters 
 
 % QTL scan (multivariate) in 2-parent crosses
 
-In anticipation that multivariate mapping of correlated traits would enhance statistical power to detect QTL and would improve precision of QTL positions, both \citet{jiang1995multiple} and \citet{korol1995interval} developed multivariate interval mapping procedures. 
+In anticipation that multivariate mapping of correlated traits would enhance statistical
+power to detect QTL and would improve precision of QTL positions,
+both \citet{jiang1995multiple} and \citet{korol1995interval} developed
+multivariate interval mapping procedures. 
 
 
 
@@ -495,13 +487,125 @@ separate QTL.
 Their test applies to the setting in which multiple traits
 map to a single genomic region \citep{jiang1995multiple}. 
 That region, then, can be interrogated further by asking whether it
-harbors a single pleiotropic QTL or multiple separate QTL. For simplicity, we focus on the case where two traits both map to a single genomic region, and we wish to determine whether the two traits share a single QTL or have two separate QTL. 
+harbors a single pleiotropic QTL or multiple separate QTL. 
+For simplicity, we focus on the case where two traits both map to a single genomic region,
+and we wish to determine whether the two traits share a single QTL or have two separate QTL. 
+
+\subsection{Testing pleiotropy in two-parent crosses}
+
+\citet{jiang1995multiple} developed a suite of methods for analyzing multivariate phenotypes in
+two-parent crosses.
+Among the novel methods in their article is a test of pleiotropy vs separate QTL.
+They explain that such a test is useful when two traits map to a single genomic region.
+The question then arises ``do the two traits associate with the same locus, or do they associate with separate loci''?
+
+If both traits associate with the same locus, then that locus is called ``pleiotropic''. If the two traits associate with separate loci, then we say that there are separate QTL (one for each trait). While ``pleiotropy'' has multiple related usages in the genetics literature, we use ``pleiotropy'' here to refer to the situation in which one genetic locus affects two or more traits. 
+
+In the development of their test of pleiotropy v separate QTL, \citet{jiang1995multiple} model
+the multivariate phenotype as the sum of a linear function of the genotypes and a random error term. They assume that the phenotypes matrix is related to the genotypes data (for a single marker) through the following equation:
+
+
+\begin{equation}
+Y = XB + E
+\end{equation}
+
+
+\noindent Where Y is a n by 2 matrix of phenotype values (with each row being one subject and each column being one trait)
+, X is a n by 1 matrix of genotypes and B is a 1 by 2 matrix of allele effects.
+The random error is assumed to follow a normal distribution with mean zero and a positive variance.
+\citet{jiang1995multiple} also incorporate additional terms to model dominant effects and to
+control for residual genetic variation.
+We forego inclusion of dominant terms and additional markers for controlling residual
+genetic variation, although, in our linear mixed effects model, we do include polygenic random
+effects. 
+Extensions of our model and software to accommodate dominance effects are straightforward.
+
+
+\citet{jiang1995multiple} use a mixture model to relate genotypes to phenotypes. 
+They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F2 population, since each marker has one of three genotypes (AA, AB, BB).
+They thus approach the problem as one with a 9-state mixture model. 
+They provide the equations needed for an expectation-conditional maximization
+(ECM) algorithm for fitting the mixture model.
+They use a chi-square distribution with one degree of freedom as the
+null distribution of the test statistic. 
+
+Further investigations by \citet{jiang1995multiple} with simulations revealed
+reasonable behavior of the hypothesis test under the specified conditions. 
+They learned that dense marker coverage tends to aid in distinguishing pleiotropy
+from separate QTL. \todo[inline]{IS THIS TRUE?? look back at JZ 1995's simulations. How did they examine power and type I error rates? Do they examine univariate LOD strength when considering power? What about interlocus distance?}
 
 
 
 
 
 
+
+
+
+
+They use a computational algorithm called ``expectation - conditional maximization'' to find these values. 
+ECM is an iterative algorithm. 
+The user inputs starting values for the parameters and the algorithm changes them one at a
+time until the change in log likelihood between successive iterations is sufficiently small.
+The algorithm is then said to have ``converged''. 
+The final iteration’s parameter values are treated as those that maximize the likelihood.
+
+
+\citet{jiang1995multiple}, in the context of their multivariate QTL mapping methods, 
+describe a test of pleiotropy vs. separate QTL. 
+They formulate a test in which the null hypothesis
+is pleiotropy while the the alternative hypothesis is separate QTL.
+In other words, they consider the case in which the two traits map to the same locus
+(pleiotropy) as a special case of the more general setting (separate QTL)
+in which the two traits may or may not map to the same locus.
+
+In statistical terminology, one would say that the parameter space is restricted under the null hypothesis. Here, the parameter space is the collection of ordered pairs of markers in the genomic region of interest. The restriction of that collection under pleiotropy corresponds to limiting consideration to only those ordered pairs that have both traits mapping to a single locus. 
+
+We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fig:encircle}). Each point in the grid corresponds to an ordered pair of markers. Along the horizontal axis are the markers for the first component of the ordered pair; the second component of the ordered pair is indicated by the vertical axis. The red points correspond to those that are considered under the pleiotropy hypothesis. Under the alternative hypothesis, all grid points are considered. 
+
+
+<<ggalt>>=
+library(tidyverse)
+library(ggalt) #contains geom_encircle
+@
+
+<<encircle, out.height = '4in', out.width='6in', fig.cap = "Two-dimensional grid of ordered pairs of markers.", fig.lp="fig:">>=
+# two-dimensional grid for pleiotropy testing
+c1 <- c(rep(1:5, each = 5), 1:5)
+c2 <- c(rep(1:5, times = 5), 1:5)
+foo <- c(rep(2, 25), rep(1, 5))
+tibble(c1, c2, foo = as.factor(foo)) %>%
+  ggplot() + geom_encircle(aes(x = c1, 
+                               y = c2, 
+                               color = foo, 
+                               #fill = foo, 
+                               #alpha = 0.1
+                               ), 
+                           s_shape = 0, spread = 0.01, expand = 0.05
+                           ) + 
+  geom_point(aes(x = c1, y = c2, color = foo)) + 
+  xlim(c(0, 6)) + ylim(c(0, 6)) + xlab("trait1 position") + 
+  ylab("trait2 position") + 
+  theme(legend.position = "none") + 
+  theme(axis.text.x = element_text(face="bold",  
+                           size=14),
+          axis.text.y = element_text(face="bold",
+                           size=14), 
+        axis.title = element_text(face = "bold", size = 16)
+        )
+@
+
+
+
+\citet{jiang1995multiple} then calculate the likelihoods of the two models
+(that under the hypothesis of pleiotropy and that under the hypothesis of separate QTL)
+at each ordered pair of putative loci in the genomic region of interest.
+The likelihood ratio test statistic is the logarithm of the ratio of the maximum
+of the likelihoods under pleiotropy to the maximum of the likelihoods under
+the separate QTL hypothesis. 
+
+\citet{jiang1995multiple} determined p-values for their test statistics by comparing
+them to a chi-squared distribution with 1 degree of freedom. 
 
 
 
@@ -511,9 +615,23 @@ harbors a single pleiotropic QTL or multiple separate QTL. For simplicity, we fo
 
 Near the turn of the century, geneticists sought a mammalian gene mapping resource 
 that could be used for study of a wide variety of quantitative traits. 
-The magnitude of such an undertaking required a collaborative, community-supported approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred (DO) mouse population as such a high-resolution gene mapping resource. They elected to seed the population with partially inbred progenitors of the Collaborative Cross mouse population. The Collaborative Cross mating design started with mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ, NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ.
+The magnitude of such an undertaking required a collaborative, community-supported
+approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred (DO)
+mouse population as such a high-resolution gene mapping resource.
+They elected to seed the population with partially inbred progenitors of the
+Collaborative Cross mouse population. The Collaborative Cross mating design started with
+mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ,
+NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ.
 
-The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate mice with DNA from all eight founder lines over the course of 3 generations. The term ``funnel'' refers to the design for the first 3 mating generations in which the DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders. For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation (Figure~\ref{fig:ri8}). AB offspring would then mate with CD offspring and EF offspring would mate with GH mice. Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that contain genetic material from all eight inbred founder lines. Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
+The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate
+mice with DNA from all eight founder lines over the course of 3 generations.
+The term ``funnel'' refers to the design for the first 3 mating generations in which the
+DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders.
+For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation (Figure~\ref{fig:ri8}).
+AB offspring would then mate with CD offspring and EF offspring would mate with GH mice.
+Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that
+contain genetic material from all eight inbred founder lines.
+Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
 
 <<ri8, fig.lp="fig:", fig.cap="Schematic for a single funnel in the Collaborative Cross breeding design.">>=
 color <- c(rgb(102,203,254,maxColorValue=255), # light blue
@@ -791,7 +909,7 @@ QTL mapping: the ``model selection'' problem \citep{broman2009guide}.
 Linear regression is widely used because of its ease of implementation,
 computational speed, and interpretability of results.
 A genetically ``additive'' linear model, in which we assume a linear relationship between
-a trait and each founder allele's dosage, is widely used 
+a trait's values and each founder allele's dosage, is the default model.
 \citep{gatti2014quantitative,broman2019rqtl2}.
 The R package \texttt{qtl2} provides a straightforward user
 interface to include covariates and interaction terms in the linear model \citep{broman2019rqtl2}.
@@ -800,126 +918,24 @@ interface to include covariates and interaction terms in the linear model \citep
 
 
 % model form - random effects incorporation & relatedness
+% First, relatedness
+Relatedness is one issue that arises in the Diversity Outbred mice that is not a major concern in 
+two-parent crosses. Due to the complexity of the breeding design, Diversity Outbred mice
+have 
+complicated pairwise relationships. A given study cohort may include pairs of first
+cousins, parent-offspring pairs, grandparent-grandchild pairs, second cousin pairs, and others.
+Contrasting this with the two-parent backcross (Figure~\ref{fig:backcross}) and
+intercross (Figure~\ref{fig:intercross}) designs, we see in the backcross that
+average relatedness between any two members of the BC generation is equal to the same, shared value.
+One measure of relatedness is the probability of identity by state, \emph{i.e.}, the
+probability that a randomly chosen allele from one subject is identical to a randomly chosen
+allele of the second subject. Measured in terms of the probability that a randomly chosen allele
+from one subject is identical to a randomly chosen allele of a second subject, we note that
+this probability of identity by state is $\frac{5}{8}$ in the backcross. F$_2$ subject pairs in an intercross, likewise, have a single, shared average relatedness, with an identity by state probability of $\frac{1}{2}$.
+
+Because relatedness can confound genotype-phenotype associations \citep{yang2014advantages}, researchers have developed methods to account for relatedness in their statistical models. One popular approach involves use of a polygenic random effect in the statistical model \citep{kang2008efficient}. The addition of a random effect to a model with fixed (\emph{i.e.}, nonrandom) effects results in what statisticians call a ``linear mixed effects model''. 
 
 
-
-
-
-\subsection{Testing pleiotropy in two-parent crosses}
-
-\citet{jiang1995multiple} developed a suite of methods for analyzing multivariate phenotypes in
-two-parent crosses.
-Among the novel methods in their article is a test of pleiotropy vs separate QTL.
-They explain that such a test is useful when two traits map to a single genomic region.
-The question then arises ``do the two traits associate with the same locus, or do they associate with separate loci''?
-
-If both traits associate with the same locus, then that locus is called ``pleiotropic''. If the two traits associate with separate loci, then we say that there are separate QTL (one for each trait). While ``pleiotropy'' has multiple related usages in the genetics literature, we use ``pleiotropy'' here to refer to the situation in which one genetic locus affects two or more traits. 
-
-In the development of their test of pleiotropy v separate QTL, \citet{jiang1995multiple} model
-the multivariate phenotype as the sum of a linear function of the genotypes and a random error term. They assume that the phenotypes matrix is related to the genotypes data (for a single marker) through the following equation:
-
-
-\begin{equation}
-Y = XB + E
-\end{equation}
-
-
-\noindent Where Y is a n by 2 matrix of phenotype values (with each row being one subject and each column being one trait)
-, X is a n by 1 matrix of genotypes and B is a 1 by 2 matrix of allele effects.
-The random error is assumed to follow a normal distribution with mean zero and a positive variance.
-\citet{jiang1995multiple} also incorporate additional terms to model dominant effects and to
-control for residual genetic variation.
-We forego inclusion of dominant terms and additional markers for controlling residual
-genetic variation, although, in our linear mixed effects model, we do include polygenic random
-effects. 
-Extensions of our model and software to accommodate dominance effects are straightforward.
-
-
-\citet{jiang1995multiple} use a mixture model to relate genotypes to phenotypes. 
-They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F2 population, since each marker has one of three genotypes (AA, AB, BB).
-They thus approach the problem as one with a 9-state mixture model. 
-They provide the equations needed for an expectation-conditional maximization
-(ECM) algorithm for fitting the mixture model.
-They use a chi-square distribution with one degree of freedom as the
-null distribution of the test statistic. 
-
-Further investigations by \citet{jiang1995multiple} with simulations revealed
-reasonable behavior of the hypothesis test under the specified conditions. 
-They learned that dense marker coverage tends to aid in distinguishing pleiotropy
-from separate QTL. \todo[inline]{IS THIS TRUE?? look back at JZ 1995's simulations. How did they examine power and type I error rates? Do they examine univariate LOD strength when considering power? What about interlocus distance?}
-
-
-
-
-
-
-
-
-
-
-They use a computational algorithm called ``expectation - conditional maximization'' to find these values. 
-ECM is an iterative algorithm. 
-The user inputs starting values for the parameters and the algorithm changes them one at a
-time until the change in log likelihood between successive iterations is sufficiently small.
-The algorithm is then said to have ``converged''. 
-The final iteration’s parameter values are treated as those that maximize the likelihood.
-
-
-\citet{jiang1995multiple}, in the context of their multivariate QTL mapping methods, 
-describe a test of pleiotropy vs. separate QTL. 
-They formulate a test in which the null hypothesis
-is pleiotropy while the the alternative hypothesis is separate QTL.
-In other words, they consider the case in which the two traits map to the same locus
-(pleiotropy) as a special case of the more general setting (separate QTL)
-in which the two traits may or may not map to the same locus.
-
-In statistical terminology, one would say that the parameter space is restricted under the null hypothesis. Here, the parameter space is the collection of ordered pairs of markers in the genomic region of interest. The restriction of that collection under pleiotropy corresponds to limiting consideration to only those ordered pairs that have both traits mapping to a single locus. 
-
-We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fig:encircle}). Each point in the grid corresponds to an ordered pair of markers. Along the horizontal axis are the markers for the first component of the ordered pair; the second component of the ordered pair is indicated by the vertical axis. The red points correspond to those that are considered under the pleiotropy hypothesis. Under the alternative hypothesis, all grid points are considered. 
-
-
-<<ggalt>>=
-library(tidyverse)
-library(ggalt) #contains geom_encircle
-@
-
-<<encircle, out.height = '4in', out.width='6in', fig.cap = "Two-dimensional grid of ordered pairs of markers.", fig.lp="fig:">>=
-# two-dimensional grid for pleiotropy testing
-c1 <- c(rep(1:5, each = 5), 1:5)
-c2 <- c(rep(1:5, times = 5), 1:5)
-foo <- c(rep(2, 25), rep(1, 5))
-tibble(c1, c2, foo = as.factor(foo)) %>%
-  ggplot() + geom_encircle(aes(x = c1, 
-                               y = c2, 
-                               color = foo, 
-                               #fill = foo, 
-                               #alpha = 0.1
-                               ), 
-                           s_shape = 0, spread = 0.01, expand = 0.05
-                           ) + 
-  geom_point(aes(x = c1, y = c2, color = foo)) + 
-  xlim(c(0, 6)) + ylim(c(0, 6)) + xlab("trait1 position") + 
-  ylab("trait2 position") + 
-  theme(legend.position = "none") + 
-  theme(axis.text.x = element_text(face="bold",  
-                           size=14),
-          axis.text.y = element_text(face="bold",
-                           size=14), 
-        axis.title = element_text(face = "bold", size = 16)
-        )
-@
-
-
-
-\citet{jiang1995multiple} then calculate the likelihoods of the two models
-(that under the hypothesis of pleiotropy and that under the hypothesis of separate QTL)
-at each ordered pair of putative loci in the genomic region of interest.
-The likelihood ratio test statistic is the logarithm of the ratio of the maximum
-of the likelihoods under pleiotropy to the maximum of the likelihoods under
-the separate QTL hypothesis. 
-
-\citet{jiang1995multiple} determined p-values for their test statistics by comparing
-them to a chi-squared distribution with 1 degree of freedom. 
 
 
 

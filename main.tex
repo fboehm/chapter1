@@ -118,7 +118,8 @@
 \usepackage[
     backend=biber,
     style=authoryear,
-    natbib=true,
+    citestyle=authoryear,
+    natbib=true, %citet and citep
     url=true, 
     doi=true,
     eprint=true,
@@ -355,12 +356,6 @@ allowing for genotyping errors when inferring genotype probabilities,
 are active areas of research 30 years after their publication.
 
 
-
-
-
-
-
-
 %statistical challenges in QTL mapping
 Two major statistical challenges are what \citet{broman2009guide} call 
 the ``missing data'' problem and the ``model selection'' problem. 
@@ -374,12 +369,6 @@ while genotypes at intervening bases are unobserved random variables \citep{brom
 Two sets of recursive equations, termed ``forward'' and ``backward'' equations,
 enable efficient calculation of genotype probabilities
 (conditional on the observed marker genotypes) \citep{baum1970maximization}.
-
-
-%
-
-
-
 
 
 % model form - linear regression
@@ -411,7 +400,10 @@ minimize the residual sum of squares. In the above equation, our two parameters 
 
 % QTL scan (multivariate) in 2-parent crosses
 
-In anticipation that multivariate mapping of correlated traits would enhance statistical power to detect QTL and would improve precision of QTL positions, both \citet{jiang1995multiple} and \citet{korol1995interval} developed multivariate interval mapping procedures. 
+In anticipation that multivariate mapping of correlated traits would enhance statistical
+power to detect QTL and would improve precision of QTL positions,
+both \citet{jiang1995multiple} and \citet{korol1995interval} developed
+multivariate interval mapping procedures. 
 
 
 
@@ -425,77 +417,9 @@ separate QTL.
 Their test applies to the setting in which multiple traits
 map to a single genomic region \citep{jiang1995multiple}. 
 That region, then, can be interrogated further by asking whether it
-harbors a single pleiotropic QTL or multiple separate QTL. For simplicity, we focus on the case where two traits both map to a single genomic region, and we wish to determine whether the two traits share a single QTL or have two separate QTL. 
-
-
-
-
-
-
-
-
-
-
-
-\subsection{Multiparental populations and Diversity Outbred mice}
-
-Near the turn of the century, geneticists sought a mammalian gene mapping resource 
-that could be used for study of a wide variety of quantitative traits. 
-The magnitude of such an undertaking required a collaborative, community-supported approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred (DO) mouse population as such a high-resolution gene mapping resource. They elected to seed the population with partially inbred progenitors of the Collaborative Cross mouse population. The Collaborative Cross mating design started with mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ, NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ.
-
-The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate mice with DNA from all eight founder lines over the course of 3 generations. The term ``funnel'' refers to the design for the first 3 mating generations in which the DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders. For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation (Figure~\ref{fig:ri8}). AB offspring would then mate with CD offspring and EF offspring would mate with GH mice. Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that contain genetic material from all eight inbred founder lines. Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
-
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth]{figure/ri8-1} \caption[Schematic for a single funnel in the Collaborative Cross breeding design]{Schematic for a single funnel in the Collaborative Cross breeding design.}\label{fig:ri8}
-\end{figure}
-
-
-\end{knitrout}
-
-
-
-
-The designers of the Diversity Outbred population started with \todo[inline]{get number of mice and from which generations}
-
-Due to the breeding scheme, each Diversity Outbred mouse is a highly heterozygous mosaic of 
-founders' DNA (Figure)\todo{add figure with mosaics over multiple generations here}. 
-With each generation, the Diversity Outbred mice accumulate meiotic recombinations. 
-This is because each mouse inherits DNA from its parents, and each meiosis provides opportunities for recombinations. \todo[inline]{need to explain this better. How does Andrew explain it in his thesis?}
-
-The cumulative effect of recombinations over many generations of outbreeding is to create mice whose DNA mosaic contains smaller and smaller contiguous pieces from each founder line. 
-
-The Diversity Outbred mice enable high-resolution QTL mapping \citep{gatti2014quantitative}. One factor that contributes to high-resolution mapping is the ability to infer the founder line from which each marker's DNA arose. 
-
-
-
-
-\subsection{QTL mapping in DO mice}
-
-QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
-
-The next step, missing genotypes inference, is needed because of the ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele genotypes at the measured SNP markers. An expectation maximization algorithm \citep{dempster1977maximum} for a hidden Markov model, developed by \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all nuclear autosomal markers and pseudomarkers. Pseudomarkers, as we use the term, are arbitrary nucleotide bases at which the researcher wants 36-state genotype probabilities. Finally, we collapse the 36-state genotype probabilities to eight founder allele dosages at each marker. This last step is optional, but often helpful, because the simplified models require specification of fewer parameters. We then treat the founder allele dosages as known quantities in subsequent steps. 
-
-% model form - connecting genotype to phenotype
-
-After inferring founder allele dosages, we address the second major statistical challenge of 
-QTL mapping: the ``model selection'' problem \citep{broman2009guide}.
-Linear regression is widely used because of its ease of implementation,
-computational speed, and interpretability of results.
-A genetically ``additive'' linear model, in which we assume a linear relationship between
-a trait and each founder allele's dosage, is widely used 
-\citep{gatti2014quantitative,broman2019rqtl2}.
-The R package \texttt{qtl2} provides a straightforward user
-interface to include covariates and interaction terms in the linear model \citep{broman2019rqtl2}.
-
-
-
-
-% model form - random effects incorporation & relatedness
-
-
-
-
+harbors a single pleiotropic QTL or multiple separate QTL. 
+For simplicity, we focus on the case where two traits both map to a single genomic region,
+and we wish to determine whether the two traits share a single QTL or have two separate QTL. 
 
 \subsection{Testing pleiotropy in two-parent crosses}
 
@@ -600,6 +524,98 @@ the separate QTL hypothesis.
 
 \citet{jiang1995multiple} determined p-values for their test statistics by comparing
 them to a chi-squared distribution with 1 degree of freedom. 
+
+
+
+
+
+\subsection{Multiparental populations and Diversity Outbred mice}
+
+Near the turn of the century, geneticists sought a mammalian gene mapping resource 
+that could be used for study of a wide variety of quantitative traits. 
+The magnitude of such an undertaking required a collaborative, community-supported
+approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred (DO)
+mouse population as such a high-resolution gene mapping resource.
+They elected to seed the population with partially inbred progenitors of the
+Collaborative Cross mouse population. The Collaborative Cross mating design started with
+mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ,
+NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ.
+
+The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate
+mice with DNA from all eight founder lines over the course of 3 generations.
+The term ``funnel'' refers to the design for the first 3 mating generations in which the
+DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders.
+For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation (Figure~\ref{fig:ri8}).
+AB offspring would then mate with CD offspring and EF offspring would mate with GH mice.
+Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that
+contain genetic material from all eight inbred founder lines.
+Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\includegraphics[width=\maxwidth]{figure/ri8-1} \caption[Schematic for a single funnel in the Collaborative Cross breeding design]{Schematic for a single funnel in the Collaborative Cross breeding design.}\label{fig:ri8}
+\end{figure}
+
+
+\end{knitrout}
+
+
+
+
+The designers of the Diversity Outbred population started with \todo[inline]{get number of mice and from which generations}
+
+Due to the breeding scheme, each Diversity Outbred mouse is a highly heterozygous mosaic of 
+founders' DNA (Figure)\todo{add figure with mosaics over multiple generations here}. 
+With each generation, the Diversity Outbred mice accumulate meiotic recombinations. 
+This is because each mouse inherits DNA from its parents, and each meiosis provides opportunities for recombinations. \todo[inline]{need to explain this better. How does Andrew explain it in his thesis?}
+
+The cumulative effect of recombinations over many generations of outbreeding is to create mice whose DNA mosaic contains smaller and smaller contiguous pieces from each founder line. 
+
+The Diversity Outbred mice enable high-resolution QTL mapping \citep{gatti2014quantitative}. One factor that contributes to high-resolution mapping is the ability to infer the founder line from which each marker's DNA arose. 
+
+
+
+
+\subsection{QTL mapping in DO mice}
+
+QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
+
+The next step, missing genotypes inference, is needed because of the ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele genotypes at the measured SNP markers. An expectation maximization algorithm \citep{dempster1977maximum} for a hidden Markov model, developed by \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all nuclear autosomal markers and pseudomarkers. Pseudomarkers, as we use the term, are arbitrary nucleotide bases at which the researcher wants 36-state genotype probabilities. Finally, we collapse the 36-state genotype probabilities to eight founder allele dosages at each marker. This last step is optional, but often helpful, because the simplified models require specification of fewer parameters. We then treat the founder allele dosages as known quantities in subsequent steps. 
+
+% model form - connecting genotype to phenotype
+
+After inferring founder allele dosages, we address the second major statistical challenge of 
+QTL mapping: the ``model selection'' problem \citep{broman2009guide}.
+Linear regression is widely used because of its ease of implementation,
+computational speed, and interpretability of results.
+A genetically ``additive'' linear model, in which we assume a linear relationship between
+a trait's values and each founder allele's dosage, is the default model.
+\citep{gatti2014quantitative,broman2019rqtl2}.
+The R package \texttt{qtl2} provides a straightforward user
+interface to include covariates and interaction terms in the linear model \citep{broman2019rqtl2}.
+
+
+
+
+% model form - random effects incorporation & relatedness
+% First, relatedness
+Relatedness is one issue that arises in the Diversity Outbred mice that is not a major concern in 
+two-parent crosses. Due to the complexity of the breeding design, Diversity Outbred mice
+have 
+complicated pairwise relationships. A given study cohort may include pairs of first
+cousins, parent-offspring pairs, grandparent-grandchild pairs, second cousin pairs, and others.
+Contrasting this with the two-parent backcross (Figure~\ref{fig:backcross}) and
+intercross (Figure~\ref{fig:intercross}) designs, we see in the backcross that
+average relatedness between any two members of the BC generation is equal to the same, shared value.
+One measure of relatedness is the probability of identity by state, \emph{i.e.}, the
+probability that a randomly chosen allele from one subject is identical to a randomly chosen
+allele of the second subject. Measured in terms of the probability that a randomly chosen allele
+from one subject is identical to a randomly chosen allele of a second subject, we note that
+this probability of identity by state is $\frac{5}{8}$ in the backcross. F$_2$ subject pairs in an intercross, likewise, have a single, shared average relatedness, with an identity by state probability of $\frac{1}{2}$.
+
+Because relatedness can confound genotype-phenotype associations \citep{yang2014advantages}, researchers have developed methods to account for relatedness in their statistical models. One popular approach involves use of a polygenic random effect in the statistical model \citep{kang2008efficient}. The addition of a random effect to a model with fixed (\emph{i.e.}, nonrandom) effects results in what statisticians call a ``linear mixed effects model''. 
+
+
 
 
 
