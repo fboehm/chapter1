@@ -164,31 +164,42 @@
 
 
 Quantitative trait locus (QTL) studies in model organisms like mice can identify 
-genomic regions that affect quantitative traits, such as systolic blood pressure and body weight.
-Tracing its origins back to \citet{sax1923association}, a genome-wide QTL ``scan'' discovers
+genomic regions that affect complex traits, such as systolic blood pressure and body weight.
+A genome-wide QTL ``scan'' discovers
 associations between genotypes and phenotypes by considering every position, one at a time, as a candidate QTL for the trait of interest.
 A region with strong evidence of association, then, defines a QTL. Because nearby markers have correlated
 genotypes, a QTL in a two-parent cross often spans multiple megabases in length and may contain more than a hundred genes.
 Identification of the causal gene from among those genes near the QTL is challenging and may require costly and time-consuming experiments. 
-Growing needs for greater QTL mapping resolution fueled development, over the last two decades, of model organism multiparental populations for high-resolution QTL mapping. I argue below for the need for a pleiotropy test in multiparental populations. Before we discuss multiparental populations, I motivate the study of pleiotropy and review designs for two-parent crosses, QTL mapping in two-parent crosses, and pleiotropy testing in two-parent crosses. 
+Growing needs for greater QTL mapping resolution fueled development, over the
+last two decades, of model organism multiparental populations for high-resolution QTL mapping.
+I argue below for the need for a pleiotropy test in multiparental populations. 
+Before we discuss multiparental populations, I first motivate the study of
+pleiotropy by discussing the biology of the \emph{Agouti} gene. I then review designs for two-parent crosses, QTL mapping in
+two-parent crosses, and pleiotropy testing in two-parent crosses.
+A discussion of multiparental populations and experimental design, QTL mapping
+in multiparental populations, and the need for a pleiotropy test in
+multiparental populations concludes Chapter 1.
 
 
 
 
-
+\subsection{\emph{Agouti} biology \& pleiotropy}
 % funnel
+Pleiotropy is the biological phenomenon in which a QTL affects multiple traits. 
 Identifying a gene that affects multiple traits may inform scientific understanding of
 interactions between biomolecules and ultimately contribute insights that aid development
 of new therapeutics. 
 %pleiotropy
-For example, mouse studies identified multiple biological roles for products of 
+For example, mouse studies identified multiple biological roles for the protein product of 
 the \emph{Agouti} gene. Mutations in the \emph{Agouti} gene may lead to both 
 yellow hair (in mice that are typically black) and obesity \citep{attie2017how}.
 Subsequent investigations uncovered two related biological roles for the Agouti protein.
 It antagonizes the action of $\alpha$-melanocyte-stimulating hormone both to
-prevent melanocyte-based melanin production and to disrupt melanocortin-4 receptor signaling in the brain.
+prevent melanocyte-based melanin production and to disrupt melanocortin-4
+receptor signaling in the brain.
 The former leads to yellow hair, while the latter causes weight gain.
-Later research identified altered signaling by the melanocortin-4 receptor in the brain as a leading cause of inherited obesity in humans.
+Later research identified altered signaling by the melanocortin-4 receptor in
+the brain as a leading cause of inherited obesity in humans.
 Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently being studied.
 
 
@@ -200,31 +211,12 @@ Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently be
 
 
 
-Complex traits include
-clinical measurements, such as systolic blood pressure and body weight, as
-well as newly measurable biomolecular traits like gene expression
-levels, protein concentrations, and lipid levels.
-Understanding the
-genetics of these and other complex traits may inform the fields of biology,
-medicine, and public health.
 %two-parent designs: intercross & backcross
 
 
 
 
 %mapping populations
-Multiparental populations of model organisms are designed with the goals of 
-incorporating many genetic variants and enhancing QTL mapping resolution.
-For much of the 20th century, researchers used two-parent crosses to identify large QTL that affect complex traits. 
-Beginning in the late 1900s and early 2000s, geneticists recognized the limitations 
-of two-parent QTL study designs. 
-Due to the limited number of cumulative recombination events, existing two-parent study designs provided limited mapping resolution. 
-Additionally, crosses of two inbred lines limits the collection of genetic variants in the offspring.
-A study design that incorporates DNA from more than two inbred lines would capture a greater number of genetic variants. 
-Since mapping resolution is related to the cumulative number of meiotic crossover 
-events on a chromosome, it would also be advantageous to have multi-generational mapping
-populations, in contrast to the traditional two-generation populations
-that result from backcrosses and intercrosses in two-parent designs.
 
 
 %mice
@@ -266,13 +258,6 @@ that result from backcrosses and intercrosses in two-parent designs.
 
 
 %roadmap
-Below, I present background material on statistical methods in quantitative trait locus
-(QTL) mapping. I begin with an overview of two-parent designs and 
-QTL mapping in two-parent crosses.
-I then discuss pleiotropy testing in two-parent crosses before considering newly
-developed multiparental populations.
-I present the design for one multiparental population, the Diversity Outbred mice.
-I close the first chapter by arguing for the need for a pleiotropy test for multiparental populations.
 
 
 \subsection{Designs for two-parent crosses}
@@ -280,6 +265,28 @@ I close the first chapter by arguing for the need for a pleiotropy test for mult
 Two widely used two-parent crosses are the ``backcross'' and the ``intercross''. We first discuss the backcross design (Figure~\ref{fig:backcross}). A backcross starts with mating between members of two inbred lines. The offspring of this mating event, termed the ``F$_1$'', or ``first filial'', generation then mate with members of one of the two parent lines. The experiment designers decide which line the female is chosen from and which line the F$_1$ mate with. Thus, there are a total of four possible backcrosses for any pair of inbred lines. 
 
 As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation ``BC'') have, for any locus, only two possible genotypes: heterozygote (AB) and homozygote (AA in the figure). 
+
+The F$_1$ generation is heterozygous everywhere (Figure~\ref{fig:backcross}).
+While meiotic crossovers occur in the founder generation, the crossover events are
+undetectable because the animals are inbred and, thus, have two identical copies
+of DNA at every locus. This causes the F$_1$ subjects to be heterozygous everywhere
+when genotyping with regards to the founder lines.
+In fact, the F$_1$ may have identical single nucleotide marker alleles at some
+positions, but, because one allele is inherited from each parent (and each inbred
+founder line), we still call them ``heterozygous'' because, in terms of founder allele genotypes, they have the ``AB'' heterozygote genotype.
+
+The meiotic crossovers that occur as the F$_1$ animals produce gametes often
+are detectable because they result in ``BC'' generation animals that have individual
+chromosomes that contain DNA from both founder lines. Due to the limited number
+of crossovers in a single meiosis, the resulting ``BC'' generation subjects have
+poor QTL mapping resolution. This poor mapping resolution corresponds to the relatively large segments of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
+
+
+
+
+
+
+
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
@@ -494,16 +501,7 @@ In statistical terminology, one would say that the parameter space is restricted
 We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fig:encircle}). Each point in the grid corresponds to an ordered pair of markers. Along the horizontal axis are the markers for the first component of the ordered pair; the second component of the ordered pair is indicated by the vertical axis. The red points correspond to those that are considered under the pleiotropy hypothesis. Under the alternative hypothesis, all grid points are considered. 
 
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# -- Attaching packages ------------------------------------------ tidyverse 1.2.1 --}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# v ggplot2 3.1.0\ \ \ \ \ \  v purrr\ \  0.3.1\ \ \\\#\# v tibble\ \ 2.0.1\ \ \ \ \ \  v dplyr\ \  0.8.0.1\\\#\# v tidyr\ \  0.8.3\ \ \ \ \ \  v stringr 1.4.0\ \ \\\#\# v readr\ \  1.3.1\ \ \ \ \ \  v forcats 0.4.0}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# -- Conflicts --------------------------------------------- tidyverse\_conflicts() --\\\#\# x .GlobalEnv::cross() masks purrr::cross()\\\#\# x dplyr::filter()\ \ \ \  masks stats::filter()\\\#\# x dplyr::lag()\ \ \ \ \ \ \ \ masks stats::lag()}}\end{kframe}
-\end{knitrout}
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}

@@ -225,6 +225,28 @@ Two widely used two-parent crosses are the ``backcross'' and the ``intercross''.
 
 As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation ``BC'') have, for any locus, only two possible genotypes: heterozygote (AB) and homozygote (AA in the figure). 
 
+The F$_1$ generation is heterozygous everywhere (Figure~\ref{fig:backcross}).
+While meiotic crossovers occur in the founder generation, the crossover events are
+undetectable because the animals are inbred and, thus, have two identical copies
+of DNA at every locus. This causes the F$_1$ subjects to be heterozygous everywhere
+when genotyping with regards to the founder lines.
+In fact, the F$_1$ may have identical single nucleotide marker alleles at some
+positions, but, because one allele is inherited from each parent (and each inbred
+founder line), we still call them ``heterozygous'' because, in terms of founder allele genotypes, they have the ``AB'' heterozygote genotype.
+
+The meiotic crossovers that occur as the F$_1$ animals produce gametes often
+are detectable because they result in ``BC'' generation animals that have individual
+chromosomes that contain DNA from both founder lines. Due to the limited number
+of crossovers in a single meiosis, the resulting ``BC'' generation subjects have
+poor QTL mapping resolution. This poor mapping resolution corresponds to the relatively large segments of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
+
+
+
+
+
+
+
+
 <<backcross, fig.cap = "Breeding scheme for a backcross. Each pair of autosomes represents a single subject.", fig.lp="fig:">>=
 # load utility functions
 source("meiosis_func.R")
