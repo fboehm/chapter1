@@ -104,7 +104,7 @@
 <<include=FALSE>>=
 library(knitr)
 opts_chunk$set(
-concordance=TRUE, echo = FALSE, fig.lp = "fig:"
+concordance=TRUE, echo = FALSE, fig.lp = "fig:", warning = FALSE, message = FALSE
 )
 @
 
@@ -550,7 +550,7 @@ We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fi
 
 
 <<ggalt>>=
-library(tidyverse)
+suppressPackageStartupMessages(library(tidyverse))
 library(ggalt) #contains geom_encircle
 @
 
