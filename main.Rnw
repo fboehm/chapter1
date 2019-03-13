@@ -28,6 +28,7 @@
             pdftitle={Chapter 1},
             pdfauthor={Frederick Boehm},
             pdfborder={0 0 0},
+            colorlinks=true,
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
 \usepackage{graphicx}
@@ -73,7 +74,8 @@
     url=true, 
     doi=true,
     eprint=true,
-    maxbibnames=10
+    maxbibnames=10,
+    backref=true
 ]{biblatex}
 \addbibresource{ch1.bib}
 %\addbibresource{research.bib}
@@ -439,7 +441,7 @@ the ``missing data'' problem and the ``model selection'' problem.
 The ``missing data'' problem arises in QTL studies because genotypes are obtained
 at only select markers. In this sense, genotypes at positions between
 markers are ``missing'' because they aren't explicitly measured. \todo[inline]{insert Karls figure showing inter-marker position \& only marker genotypes}
-A flexible framework for resolving the ``missing data'' problem involves a
+A flexible framework for resolving the ``missing data'' problem involves use of a
 hidden Markov model \citep{broman2009guide, broman2006use}. 
 In this hidden Markov model, marker genotypes are observed random variables, 
 while genotypes at intervening bases are unobserved random variables \citep{broman2009guide,broman2006use}. 
